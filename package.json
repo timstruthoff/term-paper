@@ -1,9 +1,9 @@
 {
-  "name": "webpack-babel-starter",
-  "version": "2.0.0",
-  "description": "A JavaScript starter template using Webpack 3 and Babel.",
+  "name": "facharbeit",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "repository": "https://github.com/timstruthoff/webpack-babel-starter.git",
+  "repository": "https://github.com/timstruthoff/facharbeit.git",
   "author": "Tim Struthoff <tim.struthoff@gmail.com>",
   "license": "MIT",
   "scripts": {
