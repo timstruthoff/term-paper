@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack"
+    "build": "webpack",
+    "server_start": "nodemon app/server/index.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -17,6 +18,7 @@
     "clean-webpack-plugin": "^0.1.17",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^2.30.1",
+    "nodemon": "^1.14.11",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.11.0"
   }
