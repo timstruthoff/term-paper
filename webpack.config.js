@@ -4,7 +4,7 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 
 module.exports = {
-    entry: './src/js/app.js',
+    entry: './app/client/controller/js/app.js',
     devtool: 'inline-source-map',
     devServer: {
         contentBase: './dist'
@@ -34,7 +34,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
+            template: 'app/client/controller/index.html'
         }),
         new CleanWebpackPlugin(['dist'])
     ]
