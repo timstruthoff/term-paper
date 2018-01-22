@@ -36,16 +36,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: 'app/client/static/index.handlebars',
-            filename: 'controller.html'//,
-            //js: 'controller.js'
-        }),
-        new HtmlWebpackPlugin({
-            template: 'app/client/static/index.handlebars',
-            filename: 'viewer.html'//,
-            //js: 'viewer.js'
-        }),
         new CleanWebpackPlugin(['*'], { root: path.join(__dirname, '..', '..', 'dist/') })
     ]
 };
