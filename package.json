@@ -7,8 +7,8 @@
   "author": "Tim Struthoff <tim.struthoff@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --open",
-    "build": "webpack",
+    "start": "webpack-dev-server --config tools/webpack/webpack.config.js --open",
+    "build": "webpack --config tools/webpack/webpack.config.js",
     "server_start": "nodemon app/server/index.js"
   },
   "devDependencies": {
@@ -23,6 +23,7 @@
     "webpack-dev-server": "^2.11.0"
   },
   "dependencies": {
+    "domready": "^1.0.8",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "socket.io": "^2.0.4"

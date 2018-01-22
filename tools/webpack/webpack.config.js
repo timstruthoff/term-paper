@@ -5,15 +5,15 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        controller: './app/client/controller/js/app.js',
-        viewer: './app/client/viewer/js/app.js'
+        controller: './app/client/controller/main.js',
+        viewer: './app/client/viewer/main.js'
         },
     devtool: 'inline-source-map',
     devServer: {
         contentBase: './dist'
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../../dist'),
         filename: '[name].js',
         // publicPath: '/dist'
     },
@@ -37,15 +37,15 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: 'app/client/controller/index.html',
+            template: 'app/client/static/index.handlebars',
             filename: 'controller.html'//,
             //js: 'controller.js'
         }),
         new HtmlWebpackPlugin({
-            template: 'app/client/viewer/index.html',
+            template: 'app/client/static/index.handlebars',
             filename: 'viewer.html'//,
             //js: 'viewer.js'
         }),
-        new CleanWebpackPlugin(['dist'])
+        new CleanWebpackPlugin(['*'], { root: path.join(__dirname, '..', '..', 'dist/') })
     ]
 };

@@ -1,5 +1,5 @@
 export class TestString {
     static generate() {
-        return "This is a test string.";
+        return "This is a viewer test string.";
     }
 }
