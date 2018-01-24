@@ -20,11 +20,14 @@ server.listen(3000, function () {
 });
 
 io.on('connection', function (socket) {
-    socket.emit('news', {
-        hello: 'world'
+    
+    console.log('client connected');
+
+    socket.emit('message', {
+        hello: 'server'
     });
-    console.log('sad');
-    socket.on('my other event', function (data) {
+    
+    socket.on('message', function (data) {
         console.log(data);
     });
 });
