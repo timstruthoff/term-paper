@@ -1,5 +1,5 @@
 import domready from 'domready';
-import App from './core/App'
+import App from './core/App.js';
 
 class Main {
 
@@ -15,8 +15,13 @@ class Main {
     }
 
     init() {
-
         new App();
 
     }
 }
+
+domready(() => {
+
+    new Main();
+
+});

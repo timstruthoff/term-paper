@@ -1,6 +1,6 @@
-import { TestString } from './../components/Teststring';
+import TestString from './../components/Teststring';
 
-export class App {
+export default class App {
 
     constructor() {
         console.log(TestString.generate());
