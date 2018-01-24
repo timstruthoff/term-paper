@@ -9,7 +9,8 @@
   "scripts": {
     "start": "webpack-dev-server --config tools/webpack/webpack.config.js --open",
     "build": "webpack --config tools/webpack/webpack.config.js",
-    "server_start": "nodemon app/server/index.js"
+    "server_start": "nodemon app/server/index.js",
+    "dev-server": "nodemon tools/dev-server"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
