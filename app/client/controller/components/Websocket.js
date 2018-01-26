@@ -4,18 +4,28 @@ import { setInterval } from 'timers';
 export default class Websocket {
 
     constructor() {
-        const socket = io('http://localhost:3000');
+        this.socket = io('http://localhost:3000');
 
-        socket.on('connect', function () {
-            console.log('connected')
+        this.socket.on('connect', ((localSocket) => {
+            return () => {
+                console.log('connected')
 
-            socket.emit('message', {
-                hello: 'client'
-            });
+                localSocket.emit('message', {
+                    hello: 'client'
+                });
 
-            socket.on('message', function (data) {
-                console.log(data)
-            });
-        });
+                localSocket.on('message', (data) => {
+                    console.log(data)
+                });
+            };
+        })(this.socket)
+        );
     }
+
+    handleClickEvent(top){ // top: user clicks either in upper part of the screen or in the lower part
+        let eventObj = {direction : top};
+        eventObj.direction = '' + top;
+        this.socket.emit('event', eventObj);
+    }
+
 }

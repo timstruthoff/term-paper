@@ -15,6 +15,10 @@ module.exports = class {
             socket.on('message', function (data) {
                 console.log(data);
             });
+
+            socket.on('event', function(eventObj){
+                socket.emit('viewerEvent', eventObj);
+            });
         });
     }
 }
