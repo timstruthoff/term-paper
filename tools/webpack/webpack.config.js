@@ -42,13 +42,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             // inject: false,
             chunks: ['commons', 'controller'],
-            //template: './../app/client/static/index.handlebars',
+            template: './app/client/static/index.handlebars',
             filename: 'index.html'
         }),
         new HtmlWebpackPlugin({
             // inject: false,
             chunks: ['commons', 'viewer'],
-            //template: './../app/client/static/index.handlebars',
+            template: './app/client/static/index.handlebars',
             filename: 'viewer.html'
         }),
         new webpack.optimize.CommonsChunkPlugin({
