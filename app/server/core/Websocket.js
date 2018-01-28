@@ -10,9 +10,11 @@ module.exports = class {
         
             console.log('client connected');
         
-            socket.emit('message', {
-                type: 's'
-            });
+            setInterval(() => {
+                socket.emit('message', {
+                    type: 's'
+                });
+            }, 1000)
         
             socket.on('message', function (data) {
                 console.log(data);

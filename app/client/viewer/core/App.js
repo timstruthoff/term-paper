@@ -1,14 +1,24 @@
 import Websocket from './../components/Websocket';
-import Rx from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/mergeMap';
+
 
 export default class App {
 
     constructor() {
         this.socket = new Websocket();
-        this.socket.onConnect = () => {console.log("testApp");}
+        
+        let stream = Observable
+            .create(this.socket.observerFunction)
+            .flatMap((x) => {
+                return Observable.create(x.stream);
+            });
 
-        let obs = Rx.Observable.of(1,2,3);
-        obs.subscribe((x)=>{console.log(x);});
+        
+        stream.subscribe((data) => {
+            console.log(data);
+        })
+
 
 
     }
