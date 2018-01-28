@@ -6,16 +6,13 @@ export default class Websocket {
     constructor() {
         const socket = io('http://localhost:3000');
 
-        socket.on('connect', function () {
-            console.log('connected')
+        this.onConnect = () => {
+            console.log("test");
+        }
 
-            socket.emit('message', {
-                hello: 'client'
-            });
-
-            socket.on('message', function (data) {
-                console.log(data)
-            });
-        });
+        socket.on('connect', ((localOnconnect)=>{
+            return ()=>{
+                localOnconnect(socket);
+            }} )(this.onConnect) );
     }
 }

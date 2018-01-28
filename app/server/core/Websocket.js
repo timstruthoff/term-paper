@@ -11,7 +11,7 @@ module.exports = class {
             console.log('client connected');
         
             socket.emit('message', {
-                hello: 'server'
+                type: 's'
             });
         
             socket.on('message', function (data) {

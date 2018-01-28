@@ -11,7 +11,7 @@ export default class Websocket {
                 console.log('connected')
 
                 localSocket.emit('message', {
-                    hello: 'client'
+                    type: 'c'
                 });
 
                 localSocket.on('message', (data) => {

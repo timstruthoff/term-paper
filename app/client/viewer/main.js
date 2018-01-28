@@ -1,6 +1,5 @@
 import domready from 'domready';
 import App from './core/App.js';
-import Websocket from './components/Websocket';
 
 class Main {
 
@@ -17,7 +16,7 @@ class Main {
 
     init() {
         new App();
-        new Websocket();
+        
 
     }
 }
