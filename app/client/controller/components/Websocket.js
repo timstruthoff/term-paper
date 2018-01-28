@@ -1,31 +1,33 @@
 import io from 'socket.io-client';
-import { setInterval } from 'timers';
+import {
+    setInterval
+} from 'timers';
 
 export default class Websocket {
 
     constructor() {
-        this.socket = io('http://localhost:3000');
+        let socket = io('http://localhost:3000');
+        this.socket = socket;
 
-        this.socket.on('connect', ((localSocket) => {
-            return () => {
-                console.log('connected')
+        socket.on('connect', () => {
+            console.log('connected')
 
-                localSocket.emit('message', {
-                    type: 'c'
-                });
+            socket.emit('message', {
+                type: 'c'
+            });
 
-                localSocket.on('message', (data) => {
-                    console.log(data)
-                });
-            };
-        })(this.socket)
-        );
+            socket.on('message', (data) => {
+                console.log(data)
+            });
+        });
     }
 
-    handleClickEvent(top){ // top: user clicks either in upper part of the screen or in the lower part
-        let eventObj = {direction : top};
+    handleClickEvent(top) { // top: user clicks either in upper part of the screen or in the lower part
+        let eventObj = {
+            direction: top
+        };
         eventObj.direction = '' + top;
-        this.socket.emit('event', eventObj);
+        this.socket.emit('message', eventObj);
     }
 
 }
