@@ -1,3 +1,5 @@
+const Player = require('./../components/Player');
+
 module.exports = class {
 
     constructor (server) {
