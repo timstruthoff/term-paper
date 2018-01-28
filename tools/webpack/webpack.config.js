@@ -42,14 +42,14 @@ module.exports = {
         new HtmlWebpackPlugin({
             // inject: false,
             chunks: ['commons', 'controller'],
-            template: './app/client/static/index.handlebars',
+            template: './app/client/controller/index.handlebars',
             filename: 'index.html'
         }),
         new HtmlWebpackPlugin({
             // inject: false,
             chunks: ['commons', 'viewer'],
-            template: './app/client/static/index.handlebars',
-            filename: 'viewer.html'
+            template: './app/client/viewer/index.handlebars',
+            filename: 'viewer/index.html'
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'commons' // Specify the common bundle's name.
