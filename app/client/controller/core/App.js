@@ -53,9 +53,15 @@ export default class App {
     Adding the event listeners for all global events.
     */
     addEventListener() {
-
+        let localThis = this;
         window.addEventListener('resize', this.onResize);
         window.addEventListener('keyup', this.onKeyUp);
+        window.addEventListener('deviceorientation', (e) => {
+            localThis.onGyroscopeChange.apply(localThis, [e])
+        }, false);
+        window.ondeviceorientation = (e) => {
+            localThis.onGyroscopeChange.apply(localThis, [e])
+        }
 
     }
 
@@ -81,12 +87,12 @@ export default class App {
         this.gui.domElement.style.display = this.DEBUG ? 'block' : 'none';
 
         let cameraFolder = this.gui.addFolder('Camera');
-        //cameraFolder.add(this.WebGL.camera.position, 'x', -10, 10);
-        //cameraFolder.add(this.WebGL.camera.position, 'y', -10, 10);
-        //cameraFolder.add(this.WebGL.camera.position, 'z', 50, 150);
+        //cameraFolder.add(this.webGL.camera.position, 'x', -10, 10);
+        //cameraFolder.add(this.webGL.camera.position, 'y', -10, 10);
+        //cameraFolder.add(this.webGL.camera.position, 'z', 50, 150);
 
         let composerFolder = this.gui.addFolder('PostProcessing');
-        //composerFolder.add(this.WebGL, 'useComposer');
+        //composerFolder.add(this.webGL, 'useComposer');
 
     }
 
@@ -96,8 +102,8 @@ export default class App {
     */
     startWebGL() {
         console.log(window.innerHeight)
-        this.WebGL = new WebGL(window.innerWidth, window.innerHeight);
-        document.body.appendChild(this.WebGL.renderer.domElement);
+        this.webGL = new WebGL(window.innerWidth, window.innerHeight);
+        document.body.appendChild(this.webGL.renderer.domElement);
 
     }
 
@@ -112,9 +118,11 @@ export default class App {
         let el = this.clock.getElapsedTime() * .05;
         let d = this.clock.getDelta();
 
-        this.WebGL.update(d);
+        this.webGL.update(d);
 
         this.stats.end()
+
+        
 
         raf(this.update);
 
@@ -140,7 +148,12 @@ export default class App {
             h2: window.innerHeight / 2
         };
 
-        this.WebGL.onResize();
+        this.webGL.onResize();
 
+    }
+    
+
+    onGyroscopeChange (e) {
+        this.webGL.cubeRotationX = e.beta * Math.PI / 180;
     }
 }
