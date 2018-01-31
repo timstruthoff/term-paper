@@ -26,6 +26,8 @@ export default class App {
 
         this.bind();
 
+        this.websocket = new Websocket();
+
         this.startWebGL();
 
         this.startStats();
@@ -155,5 +157,6 @@ export default class App {
 
     onGyroscopeChange (e) {
         this.webGL.cubeRotationX = e.beta * Math.PI / 180;
+        this.websocket.handleGyroscopeEvent(e);
     }
 }

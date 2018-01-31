@@ -22,6 +22,14 @@ export default class Websocket {
         });
     }
 
+    handleGyroscopeEvent (e) {
+        let eventObj = {
+            beta: e.beta
+        };
+        console.log(eventObj)
+        this.socket.emit('message', eventObj);
+    }
+
     handleClickEvent(top) { // top: user clicks either in upper part of the screen or in the lower part
         let eventObj = {
             direction: top
