@@ -21,7 +21,7 @@ module.exports = class {
                         
                         // Determine wether client is viewer or controller.
                         let clientType = null;
-                        switch (data.eventType) {
+                        switch (data.clientType) {
                             case 'viewer':
                                 clientType = 'viewer';
                                 break;
@@ -43,7 +43,8 @@ module.exports = class {
                         }
         
                         let send = data => {
-                            console.log('send');
+                            console.log('send to:');
+                            console.log(clientType);
                             socket.emit('msg', data)
                         }
         

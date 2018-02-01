@@ -1,7 +1,4 @@
 import io from 'socket.io-client';
-import {
-    setInterval
-} from 'timers';
 
 export default class Websocket {
 
@@ -13,14 +10,14 @@ export default class Websocket {
             console.log('connected')
 
             socket.emit('msg', {
-                clientType: 'viewer',
+                clientType: 'controller',
                 eventType: 'init'
             });
 
             setInterval( () => {
                 socket.emit('msg', {
-                    clientType: 'viewer',
-                    type: 'c'
+                    clientType: 'controller',
+                    time: performance.now()
                 });
             }, 1000)
 

@@ -6,25 +6,34 @@ module.exports = class {
         let connections = Rx.Observable
             .create(websocket.connectObserver);
 
-        
-        let viewerEvents = connections.flatMap((x) => {
-            return Rx.Observable.create(x.msgObserver);
-        }).filter((data) => {
-            return data.clientType == "viewer";
+        let viewerConnections = connections.filter((connectionData) => {
+            return connectionData.clientType == "viewer";
         });
-        
-        let controllerEvents = connections.flatMap((x) => {
-            return Rx.Observable.create(x.msgObserver);
-        }).filter((data) => {
-            return data.clientType == "controller";
+
+        let controllerConnections = connections.filter((connectionData) => {
+            return connectionData.clientType == "controller";
         });
-        
+
         let disconnectEvents = connections.flatMap((x) => {
             return Rx.Observable.create(x.disconnectObserver);
         });
+
+        let viewerEvents = viewerConnections.flatMap((x) => {
+            return Rx.Observable.create(x.msgObserver);
+        });
         
-        connections.subscribe((data) => {
-            console.log('connection', data);
+        let controllerEvents = controllerConnections.flatMap((x) => {
+            return Rx.Observable.create(x.msgObserver);
+        });
+        
+        
+        viewerConnections.subscribe((data) => {
+            console.log('viewerConnections', data);
+            data.send({hello: 'rx'});
+        })
+
+        controllerConnections.subscribe((data) => {
+            console.log('controllerConnections', data);
             data.send({hello: 'rx'});
         })
         
@@ -40,10 +49,12 @@ module.exports = class {
             console.log('controller', data);
         })
 
-        connections.subscribe((connection) => {
-            viewerEvents.subscribe((viewerEventData) => {
-                connection.send(viewerEventData);
-            })
+        viewerConnections.subscribe((connection) => {
+            console.log('new Viewer');
+            controllerEvents.subscribe((controllerEventData) => {
+                console.log('sending')
+                connection.send(controllerEventData);
+            });
             
         })
     }

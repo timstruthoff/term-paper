@@ -8,8 +8,13 @@ export default class Websocket {
         this.observerFunction = (observer) => {
             socket.on('connect', () => {
 
+                socket.emit('msg', {
+                    clientType: 'viewer',
+                    eventType: 'init'
+                });
+                
                 let msgObserver = (observer) => {
-                    socket.on('message', (data) => {
+                    socket.on('msg', (data) => {
                         observer.next(data);    
                     });
                 }
