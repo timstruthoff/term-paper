@@ -12,6 +12,11 @@ export default class Websocket {
         socket.on('connect', () => {
             console.log('connected')
 
+            socket.emit('msg', {
+                clientType: 'viewer',
+                eventType: 'init'
+            });
+
             setInterval( () => {
                 socket.emit('msg', {
                     clientType: 'viewer',

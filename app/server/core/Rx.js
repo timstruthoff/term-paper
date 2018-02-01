@@ -3,7 +3,6 @@ const Rx = require('rxjs/Rx');
 module.exports = class {
 
     constructor (websocket) {
-        console.log('test')
         let connections = Rx.Observable
             .create(websocket.connectObserver);
 
@@ -28,7 +27,7 @@ module.exports = class {
             console.log('connection', data);
             data.send({hello: 'rx'});
         })
-
+        
         disconnectEvents.subscribe((data) => {
             console.log('disconnect', data);
         })
@@ -39,6 +38,13 @@ module.exports = class {
         
         controllerEvents.subscribe((data) => {
             console.log('controller', data);
+        })
+
+        connections.subscribe((connection) => {
+            viewerEvents.subscribe((viewerEventData) => {
+                connection.send(viewerEventData);
+            })
+            
         })
     }
 }

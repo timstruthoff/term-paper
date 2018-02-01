@@ -1,0 +1,4 @@
+{
+    "clientType": "controller"/"viewer",
+    "eventType": "init"/"control"
+}
