@@ -14,7 +14,7 @@ module.exports = class {
             return connectionData.clientType == "controller";
         });
 
-        let disconnectEvents = connections.flatMap((x) => {
+        let controllerDisconnect = controllerConnections.flatMap((x) => {
             return Rx.Observable.create(x.disconnectObserver);
         });
 
@@ -25,6 +25,14 @@ module.exports = class {
         let controllerEvents = controllerConnections.flatMap((x) => {
             return Rx.Observable.create(x.msgObserver);
         });
+
+        let numberOfConnects = controllerConnections.startWith(0).scan((lastValue) => {return lastValue + 1}, 0);
+        let numberOfDisconnects = controllerDisconnect.startWith(0).scan((lastValue) => {return lastValue + 1}, 0);
+        let numberOfControllers = Rx.Observable.combineLatest(numberOfConnects, numberOfDisconnects, (c, d) => c - d);
+
+        numberOfControllers.subscribe((data) => {
+            console.log('numberOfControllers', data);
+        })
         
         
         viewerConnections.subscribe((data) => {
@@ -37,7 +45,7 @@ module.exports = class {
             data.send({hello: 'rx'});
         })
         
-        disconnectEvents.subscribe((data) => {
+        controllerDisconnect.subscribe((data) => {
             console.log('disconnect', data);
         })
         
@@ -54,6 +62,14 @@ module.exports = class {
             controllerEvents.subscribe((controllerEventData) => {
                 console.log('sending')
                 connection.send(controllerEventData);
+            });
+            
+            numberOfControllers.subscribe((number) => {
+                console.log('sending')
+                connection.send({
+                    number,
+                    type: 'numberControllers'
+                });
             });
             
         })

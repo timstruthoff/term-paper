@@ -33,7 +33,7 @@ module.exports = class {
                         let msgObserver = (observer) => {
                             socket.on('msg', function (data) {
                                 observer.next(data);
-                            });
+                            }).setMaxListeners(20);
                         }
         
                         let disconnectObserver = (observer) => {
@@ -58,10 +58,10 @@ module.exports = class {
                 };
 
                 // Attaching listener for init messages.
-                socket.on('msg', initListener)
+                socket.on('msg', initListener).setMaxListeners(20);
 
                 
-            });
+            }).setMaxListeners(20);
         }
     }
 }

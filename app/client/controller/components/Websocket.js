@@ -14,12 +14,12 @@ export default class Websocket {
                 eventType: 'init'
             });
 
-            setInterval( () => {
+            /*setInterval( () => {
                 socket.emit('msg', {
                     clientType: 'controller',
                     time: performance.now()
                 });
-            }, 1000)
+            }, 1000)*/
 
             socket.on('msg', (data) => {
                 console.log(data)
