@@ -5,18 +5,34 @@ module.exports = class {
     constructor (server) {
 
         var io = require('socket.io')(server);
-    
-        io.on('connection', function (socket) {
         
-            console.log('client connected');
-        
-            socket.on('message', function (data) {
-                console.log(data);
-            });
+        this.connectObserver = (observer) => {
 
-            socket.on('event', function(eventObj){
-                socket.emit('viewerEvent', eventObj);
+            io.on('connection', (socket) => {
+
+                let msgObserver = (observer) => {
+                    socket.on('msg', function (data) {
+                        observer.next(data);
+                    });
+                }
+
+                let disconnectObserver = (observer) => {
+                    socket.on('disconnecting', (reason) => {
+                        observer.next(reason);
+                    });
+                }
+
+                let send = data => {
+                    console.log('send');
+                    socket.emit('msg', data)
+                }
+
+                observer.next({
+                    msgObserver: msgObserver,
+                    disconnectObserver: disconnectObserver,
+                    send: send
+                });
             });
-        });
+        }
     }
 }

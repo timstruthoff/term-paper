@@ -12,11 +12,14 @@ export default class Websocket {
         socket.on('connect', () => {
             console.log('connected')
 
-            socket.emit('message', {
-                type: 'c'
-            });
+            setInterval( () => {
+                socket.emit('msg', {
+                    clientType: 'viewer',
+                    type: 'c'
+                });
+            }, 1000)
 
-            socket.on('message', (data) => {
+            socket.on('msg', (data) => {
                 console.log(data)
             });
         });

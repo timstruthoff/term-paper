@@ -8,6 +8,7 @@ const config = require('./../webpack/webpack.config.js');
 const compiler = webpack(config);
 
 const Websocket = require('./../../app/server/core/Websocket');
+const Rx = require('./../../app/server/core/Rx');
 
 
 // Tell express to use the webpack-dev-middleware and use the webpack.config.js
@@ -19,6 +20,7 @@ app.use(webpackDevMiddleware(compiler, {
 var server = require('http').Server(app);
 
 var websocket = new Websocket(server);
+var rx = new Rx(websocket);
 
 server.listen(3000, function () {
     console.log('Example app listening on port 3000!\n');
