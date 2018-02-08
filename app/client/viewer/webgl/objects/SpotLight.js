@@ -3,27 +3,17 @@ import * as THREE from 'three';
 export default class SpotLight {
 
     constructor() {
-        this.light = new THREE.SpotLight(0xffffff);
-        this.light.position.set(20, 30, 20);
-        this.light.angle = 0.714;
-        this.light.target.position.set(0,0,0)
-
-        this.light.castShadow = true;
-
-        /*this.light.shadow.mapSize.width = 1024;
-        this.light.shadow.mapSize.height = 1024;
-
-        this.light.shadow.camera.near = 500;
-        this.light.shadow.camera.far = 4000;
-        this.light.shadow.camera.fov = 30;
-
-        this.light.angle = 0.714;
-        this.light.penumbra = 0.0;
-        this.light.decay = 2;
-        this.light.distance = 0;*/
-
-        this.helper = new THREE.SpotLightHelper(this.light);
-        this.shadowHelper = new THREE.CameraHelper( this.light.shadow.camera );
+        this.obj = new THREE.SpotLight(0xffffff, 1);
+        this.obj.position.set(15, 40, 35);
+        this.obj.angle = Math.PI / 4;
+        this.obj.penumbra = 0.05;
+        this.obj.decay = 2;
+        this.obj.distance = 200;
+        this.obj.castShadow = true;
+        this.obj.shadow.mapSize.width = 1024;
+        this.obj.shadow.mapSize.height = 1024;
+        this.obj.shadow.camera.near = 10;
+        this.obj.shadow.camera.far = 200;
     }
 
 }
