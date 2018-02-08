@@ -1,6 +1,10 @@
 'use strict';
 
 import * as THREE from 'three'; //import THREE from 'three' doesn't work.
+import TestCube from './objects/TestCube';
+import Plane from './objects/Plane';
+import AmbientLight from './objects/AmbientLight';
+import SpotLight from './objects/SpotLight';
 
 class WebGL {
 
@@ -8,6 +12,8 @@ class WebGL {
         this.renderer = null;
         this.camera = null;
         this.scene = null;
+        window.THREE = THREE;
+
         this.cube = null;
 
         this.createScene();
@@ -26,8 +32,10 @@ class WebGL {
     createScene() {
 
         this.scene = new THREE.Scene();
+        window.scene = this.scene;
+
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 1, 10000);
-        this.camera.position.set(0, 0, 15);
+        this.camera.position.set(0, 20, 15);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0))
 
     }
@@ -49,11 +57,9 @@ class WebGL {
 	Adding starting objects to the scene.
     */
     addObjects() {
-    	console.log("sdf")
-		var geometry = new THREE.BoxGeometry(1, 1, 1);
-		var material = new THREE.MeshBasicMaterial({color: 0xfffff, wireframe: true});
-		this.cube = new THREE.Mesh(geometry, material);
-		this.scene.add(this.cube);
+        this.scene.add(new TestCube().mesh);
+        this.scene.add(new Plane().mesh);
+        this.scene.add(new AmbientLight().light);
 
     }
 
