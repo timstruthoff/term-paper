@@ -1,4 +1,5 @@
-import Websocket from "./../components/Websocket.js";
+import Websocket from "./../components/Websocket";
+import GyroEventGenerator from "./../components/GyroEventGenerator";
 
 import dat  from 'dat-gui';
 import raf from 'raf';
@@ -23,10 +24,14 @@ export default class App {
             h2: window.innerHeight / 2
         };
 
-
         this.bind();
 
         this.websocket = new Websocket();
+
+        this.eventGenerator = new GyroEventGenerator();
+        this.eventGenerator.onChange = (data) => {
+            this.webGL.cubeRotationX = data.beta * Math.PI / 180;
+        }
 
         this.startWebGL();
 
@@ -58,12 +63,7 @@ export default class App {
         let localThis = this;
         window.addEventListener('resize', this.onResize);
         window.addEventListener('keyup', this.onKeyUp);
-        window.addEventListener('deviceorientation', (e) => {
-            localThis.onGyroscopeChange.apply(localThis, [e])
-        }, false);
-        window.ondeviceorientation = (e) => {
-            localThis.onGyroscopeChange.apply(localThis, [e])
-        }
+        
 
     }
 
@@ -153,10 +153,5 @@ export default class App {
         this.webGL.onResize();
 
     }
-    
 
-    onGyroscopeChange (e) {
-        this.webGL.cubeRotationX = e.beta * Math.PI / 180;
-        this.websocket.handleGyroscopeEvent(e);
-    }
 }
