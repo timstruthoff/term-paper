@@ -18,6 +18,6 @@ export default class {
     }
 
     destroy() {
-
+        document.body.removeChild(this.containerEl);
     }
 }
