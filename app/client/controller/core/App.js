@@ -28,9 +28,9 @@ export default class App {
 
         this.websocket = new Websocket();
 
-        this.eventGenerator = new RandomEventGenerator(50);
+        this.eventGenerator = new RandomEventGenerator();
         this.eventGenerator.onChange = (data) => {
-            //this.webGL.cubeRotationX = data.beta * Math.PI / 180;
+            this.webGL.cubeRotationX = (data.beta - 0.5) * Math.PI;
             console.log(data);
         }
 
