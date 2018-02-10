@@ -1,9 +1,10 @@
 import Websocket from "./../components/Websocket";
 import RandomEventGenerator from "./../components/RandomEventGenerator";
+import Overlay from "./../components/Overlay";
 
-import dat  from 'dat-gui';
+import dat from 'dat-gui';
 import raf from 'raf';
-import Stats  from 'stats-js';
+import Stats from 'stats-js';
 
 import * as THREE from 'three';
 
@@ -31,7 +32,6 @@ export default class App {
         this.eventGenerator = new RandomEventGenerator();
         this.eventGenerator.onChange = (data) => {
             this.webGL.cubeRotationX = (data.beta - 0.5) * Math.PI;
-            console.log(data);
         }
 
         this.startWebGL();
@@ -42,6 +42,32 @@ export default class App {
         this.addEventListener();
 
         this.update();
+
+        this.websocket.on('waitingForPlayers', () => {
+            console.log('wait')
+            if (this.overlay != undefined) {
+                console.log('destroy')
+                this.overlay.destroy();
+                this.overlay = undefined;
+            }
+            this.overlay = new Overlay('Waiting for players!');
+            
+        });
+
+        this.websocket.on('ready', () => {
+            console.log(this);
+            console.log('ready')
+            
+            if (this.overlay != undefined) {
+                console.log('destroy')
+                this.overlay.destroy();
+                this.overlay = undefined;
+            }
+        });
+
+
+
+
     }
 
 
@@ -61,10 +87,9 @@ export default class App {
     Adding the event listeners for all global events.
     */
     addEventListener() {
-        let localThis = this;
         window.addEventListener('resize', this.onResize);
         window.addEventListener('keyup', this.onKeyUp);
-        
+
 
     }
 
@@ -125,7 +150,7 @@ export default class App {
 
         this.stats.end()
 
-        
+
 
         raf(this.update);
 

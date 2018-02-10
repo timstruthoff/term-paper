@@ -4,11 +4,10 @@ export default class {
         this.containerEl = document.createElement('div');
 
         this.containerEl.style.position = 'fixed';
+        this.containerEl.style.top = '0';
         this.containerEl.style.width = '100%';
         this.containerEl.style.height = '100%';
         this.containerEl.style.backgroundColor = '#fff';
-        this.containerEl.style.position = 'fixed';
-
 
         this.pEl = document.createElement('p');
         this.pEl.innerHTML = message;
@@ -19,5 +18,6 @@ export default class {
 
     destroy() {
         document.body.removeChild(this.containerEl);
+        console.log('in_dest')
     }
 }

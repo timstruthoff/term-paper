@@ -1,31 +1,40 @@
 import io from 'socket.io-client';
+import EventEmitter from 'events';
 
-export default class Websocket {
+export default class Websocket extends EventEmitter {
 
     constructor() {
+        super();
+
         let socket = io('http://localhost:3000');
         this.socket = socket;
 
         socket.on('connect', () => {
             console.log('connected')
 
+            this.emit('connected');
+
             socket.emit('msg', {
                 clientType: 'controller',
                 eventType: 'init'
             });
 
-            /*setInterval( () => {
-                socket.emit('msg', {
-                    clientType: 'controller',
-                    time: performance.now()
-                });
-            }, 1000)*/
-
             socket.on('msg', (data) => {
-                console.log(data)
+                if (data.eventType == 'init') {
+                    switch (data.msg) {
+                        case 'ready':
+                            this.emit('ready');
+                            break;
+                        case 'waitingForPlayers': 
+                            this.emit('waitingForPlayers');
+                            break;
+                    }
+                    
+                }
             });
         });
     }
+    
 
     handleGyroscopeEvent (e) {
         let eventObj = {

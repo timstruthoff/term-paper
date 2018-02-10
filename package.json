@@ -10,7 +10,7 @@
     "start": "webpack-dev-server --config tools/webpack/webpack.config.js --open",
     "build": "webpack --config tools/webpack/webpack.config.js",
     "server_start": "nodemon app/server/index.js",
-    "dev-server": "node tools/dev-server"
+    "dev-server": "nodemon tools/dev-server"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -28,6 +28,7 @@
   "dependencies": {
     "dat-gui": "^0.5.0",
     "domready": "^1.0.8",
+    "events": "^2.0.0",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "raf": "^3.4.0",

@@ -2,76 +2,105 @@ const Rx = require('rxjs/Rx');
 
 module.exports = class {
 
-    constructor (websocket) {
-        let connections = Rx.Observable
+    constructor(websocket) {
+        this.numberOfControllers = 2;
+
+        let oConnections = Rx.Observable
             .create(websocket.connectObserver);
 
-        let viewerConnections = connections.filter((connectionData) => {
+        let oViewerConnections = oConnections.filter((connectionData) => {
             return connectionData.clientType == "viewer";
         });
 
-        let controllerConnections = connections.filter((connectionData) => {
+        let oControllerConnections = oConnections.filter((connectionData) => {
             return connectionData.clientType == "controller";
         });
 
-        let controllerDisconnect = controllerConnections.flatMap((x) => {
+        let oControllerDisconnect = oControllerConnections.flatMap((x) => {
             return Rx.Observable.create(x.disconnectObserver);
         });
 
-        let viewerEvents = viewerConnections.flatMap((x) => {
-            return Rx.Observable.create(x.msgObserver);
-        });
-        
-        let controllerEvents = controllerConnections.flatMap((x) => {
-            return Rx.Observable.create(x.msgObserver);
-        });
 
-        let numberOfConnects = controllerConnections.startWith(0).scan((lastValue) => {return lastValue + 1}, 0);
-        let numberOfDisconnects = controllerDisconnect.startWith(0).scan((lastValue) => {return lastValue + 1}, 0);
-        let numberOfControllers = Rx.Observable.combineLatest(numberOfConnects, numberOfDisconnects, (c, d) => c - d);
+        let oNumberOfConnects = oControllerConnections.startWith(0).scan((lastValue) => {
+            return lastValue + 1
+        }, 0);
+        let oNumberOfDisconnects = oControllerDisconnect.startWith(0).scan((lastValue) => {
+            return lastValue + 1
+        }, 0);
+        let oNumberOfControllers = Rx.Observable.combineLatest(oNumberOfConnects, oNumberOfDisconnects, (c, d) => c - d);
 
-        numberOfControllers.subscribe((data) => {
-            console.log('numberOfControllers', data);
-        })
-        
-        
-        viewerConnections.subscribe((data) => {
-            console.log('viewerConnections', data);
-            data.send({hello: 'rx'});
+        oNumberOfControllers.subscribe((number) => {
+            this.numberOfControllers = number;
         })
 
-        controllerConnections.subscribe((data) => {
-            console.log('controllerConnections', data);
-            data.send({hello: 'rx'});
-        })
-        
-        controllerDisconnect.subscribe((data) => {
-            console.log('disconnect', data);
-        })
-        
-        viewerEvents.subscribe((data) => {
-            console.log('viewer', data);
-        })
-        
-        controllerEvents.subscribe((data) => {
-            console.log('controller', data);
-        })
 
-        viewerConnections.subscribe((connection) => {
+        // routing controller events to viewer
+        oViewerConnections.subscribe((connection) => {
             console.log('new Viewer');
             controllerEvents.subscribe((controllerEventData) => {
                 console.log('sending')
                 connection.send(controllerEventData);
             });
-            
-            numberOfControllers.subscribe((number) => {
+
+            oNumberOfControllers.subscribe((number) => {
                 console.log('sending')
                 connection.send({
                     number,
                     type: 'numberControllers'
                 });
             });
-            
+
         })
+
+
+        // controller init flow
+        let oEnoughPlayers = new Rx.BehaviorSubject(false);
+
+        oNumberOfControllers
+            .subscribe(number => {
+                let enoughPlayers = number > 1;
+                let currentValue 
+                oEnoughPlayers.first().subscribe(value => {
+                    currentValue = value;
+                    if (currentValue != enoughPlayers) {
+                        oEnoughPlayers.next(enoughPlayers);
+                    }
+                })
+                
+            });
+
+        oEnoughPlayers.subscribe(value => {
+            console.log('oEnoughPlayers: ' + value)
+        })
+
+        oControllerConnections
+            .subscribe((data) => {
+                console.log('<2')
+                data.send({
+                    eventType: 'init',
+                    msg: 'waitingForPlayers'
+                });
+                
+                oEnoughPlayers
+                    .filter(value => {return value})
+                    .subscribe(() => {
+                        console.log('player ready', data);
+                        data.send({
+                            eventType: 'init',
+                            msg: 'ready'
+                        });
+                    });
+
+                oEnoughPlayers
+                    .filter(value => {return !value})
+                    .subscribe(() => {
+                        console.log('player wait', data);
+                        data.send({
+                            eventType: 'init',
+                            msg: 'waitingForPlayers'
+                        });
+                    });
+                
+            })
     }
 }
