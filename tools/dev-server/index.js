@@ -4,6 +4,7 @@ const app = express();
 
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./../webpack/webpack.config.js');
 const compiler = webpack(config);
 
@@ -15,6 +16,13 @@ const Rx = require('./../../app/server/core/Rx');
 // configuration file as a base.
 app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath
+}));
+
+// hot reloading
+app.use(webpackHotMiddleware(compiler, {
+    log: console.log,
+    path: '/__webpack_hmr',
+    heartbeat: 10 * 1000
 }));
 
 var server = require('http').Server(app);

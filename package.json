@@ -22,7 +22,8 @@
     "nodemon": "^1.14.11",
     "webpack": "^3.10.0",
     "webpack-dev-middleware": "^2.0.4",
-    "webpack-dev-server": "^2.11.0"
+    "webpack-dev-server": "^2.11.0",
+    "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
     "dat-gui": "^0.5.0",
