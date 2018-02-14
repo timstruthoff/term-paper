@@ -9,7 +9,7 @@ module.exports = class{
         let player = new Player(side);
         let id = player.uid;
         this.store[id] = player;
-        return id;
+        return player;
     }
 
     getPlayer(id){

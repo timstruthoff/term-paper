@@ -32,6 +32,9 @@ export default class App {
         this.eventGenerator = new RandomEventGenerator();
         this.eventGenerator.onChange = (data) => {
             this.webGL.cubeRotationX = (data.beta - 0.5) * Math.PI;
+            this.websocket.handleEvent({
+                beta: data.beta
+            });
         }
 
         this.startWebGL();
@@ -54,9 +57,10 @@ export default class App {
             
         });
 
-        this.websocket.on('ready', () => {
+        this.websocket.on('ready', (player) => {
             console.log(this);
-            console.log('ready')
+            console.log('ready');
+            console.log(player);
             
             if (this.overlay != undefined) {
                 console.log('destroy')
@@ -64,9 +68,6 @@ export default class App {
                 this.overlay = undefined;
             }
         });
-
-
-
 
     }
 

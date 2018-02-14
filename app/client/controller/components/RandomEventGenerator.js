@@ -18,7 +18,7 @@ export default class {
     directionLoop() {
         this.direction = !this.direction;
 
-        setTimeout(this.directionLoop, Math.random() * (10 / this.speed))
+        setTimeout(this.directionLoop, /*Math.random() * */ (10 / this.speed))
     }
 
     valueLoop() {
@@ -42,7 +42,7 @@ export default class {
             beta: this.value
         });
 
-        setTimeout(this.valueLoop, Math.random() * (1 / this.speed))
+        setTimeout(this.valueLoop, /*Math.random() * */ (1 / this.speed))
     }
 
     start() {

@@ -8,6 +8,7 @@ export default class Websocket extends EventEmitter {
 
         let socket = io('http://localhost:3000');
         this.socket = socket;
+        this.uid = null;
 
         socket.on('connect', () => {
             console.log('connected')
@@ -23,7 +24,8 @@ export default class Websocket extends EventEmitter {
                 if (data.eventType == 'init') {
                     switch (data.msg) {
                         case 'ready':
-                            this.emit('ready');
+                            this.uid = data.player.uid;
+                            this.emit('ready', data.player);
                             break;
                         case 'waitingForPlayers': 
                             this.emit('waitingForPlayers');
@@ -36,20 +38,15 @@ export default class Websocket extends EventEmitter {
     }
     
 
-    handleGyroscopeEvent (e) {
+    handleEvent (e) {
         let eventObj = {
-            beta: e.beta
+            beta: e.beta,
+            uid: this.uid
         };
-        console.log(eventObj)
-        this.socket.emit('message', eventObj);
+        
+        this.socket.emit('msg', eventObj);
     }
 
-    handleClickEvent(top) { // top: user clicks either in upper part of the screen or in the lower part
-        let eventObj = {
-            direction: top
-        };
-        eventObj.direction = '' + top;
-        this.socket.emit('message', eventObj);
-    }
+
 
 }

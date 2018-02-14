@@ -19,6 +19,10 @@ module.exports = class {
             return connectionData.clientType == "controller";
         });
 
+        let oControllerEvents = oControllerConnections.flatMap((x) => {
+            return Rx.Observable.create(x.msgObserver);
+        });
+
         let oControllerDisconnect = oControllerConnections.flatMap((x) => {
             return Rx.Observable.create(x.disconnectObserver);
         });
@@ -40,8 +44,9 @@ module.exports = class {
         // routing controller events to viewer
         oViewerConnections.subscribe((connection) => {
             console.log('new Viewer');
-            controllerEvents.subscribe((controllerEventData) => {
-                console.log('sending')
+            oControllerEvents.subscribe((controllerEventData) => {
+                console.log('sending');
+                console.log(controllerEventData);
                 connection.send(controllerEventData);
             });
 
@@ -76,6 +81,10 @@ module.exports = class {
             console.log('oEnoughPlayers: ' + value)
         })
 
+        oControllerEvents.subscribe(value => {
+            console.log('oControllerEvent: ', value);
+        });
+
         oControllerConnections
             .subscribe((data) => {
                 console.log('<2')
@@ -88,11 +97,11 @@ module.exports = class {
                     .filter(value => {return value})
                     .subscribe(() => {
                         console.log('player ready', data);
-                        let id = playerStore.createPlayer();
+                        let player = playerStore.createPlayer();
                         data.send({
                             eventType: 'init',
                             msg: 'ready',
-                            id
+                            player
                         });
                     });
 
