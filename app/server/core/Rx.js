@@ -1,9 +1,12 @@
 const Rx = require('rxjs/Rx');
+const PlayerStore = require('./../components/PlayerStore');
 
 module.exports = class {
 
     constructor(websocket) {
         this.numberOfControllers = 2;
+
+        let playerStore = new PlayerStore();
 
         let oConnections = Rx.Observable
             .create(websocket.connectObserver);
@@ -85,9 +88,11 @@ module.exports = class {
                     .filter(value => {return value})
                     .subscribe(() => {
                         console.log('player ready', data);
+                        let id = playerStore.createPlayer();
                         data.send({
                             eventType: 'init',
-                            msg: 'ready'
+                            msg: 'ready',
+                            id
                         });
                     });
 

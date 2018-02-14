@@ -1,4 +1,4 @@
-const Player = require('Player');
+const Player = require('./Player');
 
 module.exports = class{
     constructor(){
@@ -9,6 +9,7 @@ module.exports = class{
         let player = new Player(side);
         let id = player.uid;
         this.store[id] = player;
+        return id;
     }
 
     getPlayer(id){
