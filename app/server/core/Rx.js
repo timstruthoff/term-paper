@@ -109,7 +109,7 @@ module.exports = class {
                     .filter(value => {return value})
                     .subscribe(() => {
                         console.log('player ready', data);
-                        let player = playerStore.createPlayer();
+                        let player = playerStore.createPlayer(this.numberOfControllers % 2);
 
                         viewerEventBus.emit('newPlayer', player);
 

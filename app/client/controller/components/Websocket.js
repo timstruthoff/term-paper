@@ -40,6 +40,7 @@ export default class Websocket extends EventEmitter {
 
     handleEvent (e) {
         let eventObj = {
+            type: 'event',
             beta: e.beta,
             uid: this.uid
         };
