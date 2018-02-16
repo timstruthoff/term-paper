@@ -4,11 +4,11 @@ export default class{
     }
 
     addPlayer(player){
-        this.store[player.id] = player;
+        this.store[player.uid] = player;
     }
 
-    getPlayer(id){
-        return this.store[id];
+    getPlayer(uid){
+        return this.store[uid];
     }
 
 
