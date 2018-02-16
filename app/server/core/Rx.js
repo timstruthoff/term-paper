@@ -1,5 +1,6 @@
 const Rx = require('rxjs/Rx');
 const PlayerStore = require('./../components/PlayerStore');
+const EventEmitter = require('events');
 
 module.exports = class {
 
@@ -7,6 +8,8 @@ module.exports = class {
         this.numberOfControllers = 2;
 
         let playerStore = new PlayerStore();
+
+        let viewerEventBus = new EventEmitter();
 
         let oConnections = Rx.Observable
             .create(websocket.connectObserver);
@@ -23,6 +26,10 @@ module.exports = class {
             return Rx.Observable.create(x.msgObserver);
         });
 
+        oControllerEvents.subscribe( data => {
+            viewerEventBus.emit('event', data);
+        } );
+
         let oControllerDisconnect = oControllerConnections.flatMap((x) => {
             return Rx.Observable.create(x.disconnectObserver);
         });
@@ -38,26 +45,31 @@ module.exports = class {
 
         oNumberOfControllers.subscribe((number) => {
             this.numberOfControllers = number;
+            viewerEventBus.emit('numberControllers', number);
         })
 
 
         // routing controller events to viewer
         oViewerConnections.subscribe((connection) => {
             console.log('new Viewer');
-            oControllerEvents.subscribe((controllerEventData) => {
+            viewerEventBus.on('event', viewerEventData => {
                 console.log('sending');
-                console.log(controllerEventData);
-                connection.send(controllerEventData);
+                console.log(viewerEventData);
+                connection.send(viewerEventData);
             });
-
-            oNumberOfControllers.subscribe((number) => {
-                console.log('sending')
+            viewerEventBus.on('numberControllers', number => {
+                console.log('sending');
                 connection.send({
-                    number,
-                    type: 'numberControllers'
+                    type: 'numberControllers',
+                    number
+                }); 
+            });
+            viewerEventBus.on('newPlayer', player => {
+                connection.send({
+                    type: 'newPlayer',
+                    player
                 });
             });
-
         })
 
 
@@ -98,6 +110,9 @@ module.exports = class {
                     .subscribe(() => {
                         console.log('player ready', data);
                         let player = playerStore.createPlayer();
+
+                        viewerEventBus.emit('newPlayer', player);
+
                         data.send({
                             eventType: 'init',
                             msg: 'ready',
