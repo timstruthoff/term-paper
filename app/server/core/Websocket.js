@@ -43,8 +43,6 @@ module.exports = class {
                         }
         
                         let send = data => {
-                            console.log('send to:');
-                            console.log(clientType);
                             socket.emit('msg', data)
                         }
         

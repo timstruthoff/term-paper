@@ -3,13 +3,15 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
+//const hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true';
 
 
 module.exports = {
     entry: {
-        controller: ['./app/client/controller/main.js', hotMiddlewareScript],
-        viewer: ['./app/client/viewer/main.js', hotMiddlewareScript]
+        //controller: ['./app/client/controller/main.js', hotMiddlewareScript],
+        //viewer: ['./app/client/viewer/main.js', hotMiddlewareScript]
+        controller: './app/client/controller/main.js',
+        viewer: './app/client/viewer/main.js'
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -57,6 +59,6 @@ module.exports = {
             name: 'commons' // Specify the common bundle's name.
         }),
         new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
+        //new webpack.HotModuleReplacementPlugin(),
     ]
 };

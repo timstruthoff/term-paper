@@ -6,7 +6,7 @@ export default class Websocket extends EventEmitter {
     constructor() {
         super();
 
-        let socket = io('http://localhost:3000');
+        let socket = io();
         this.socket = socket;
         this.uid = null;
 

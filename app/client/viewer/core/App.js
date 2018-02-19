@@ -17,6 +17,7 @@ export default class App {
     constructor() {
         this.socket = new Websocket();
         this.playerStore = new PlayerStore();
+        this.gameView = new GameView();
         
         let stream = Rx.Observable
             .create(this.socket.observerFunction)
@@ -37,6 +38,12 @@ export default class App {
                 let player = this.playerStore.getPlayer(event.uid);
                 event.player = player;
                 return event;
+            });
+            oEvents.subscribe( event => {
+                console.log('general event: ', event);
+                if(event.player != undefined){
+                    this.gameView.movePlayerBox(event.player.uid, event.beta); 
+                }
             });
         
         let oRAF = Rx.Observable // RAF = Request Animation Frame
@@ -87,6 +94,14 @@ export default class App {
                 })
                 .map(o => o.sum / o.count);
             });
+        oRightSideEvents.subscribe( event => {
+            console.log('right event: ', event);
+            this.gameView.movePaddle(1, event);
+        });
+        oLeftSideEvents.subscribe( event => {
+            console.log('left event: ', event);
+            this.gameView.movePaddle(0, event);
+        });
 
         let oNewPlayers = stream.filter(event => {
             return event.type == 'newPlayer';
@@ -95,10 +110,9 @@ export default class App {
         oNewPlayers.subscribe( event => {
             console.log('newPlayer', event);
             this.playerStore.addPlayer(event.player);
-            console.log(this.playerStore);
+            //console.log(this.playerStore);
+            this.gameView.addPlayerBox(event.player);
         } );
-
-        let gameView = new GameView();
 
 
 

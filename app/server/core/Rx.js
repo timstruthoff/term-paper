@@ -44,6 +44,7 @@ module.exports = class {
         let oNumberOfControllers = Rx.Observable.combineLatest(oNumberOfConnects, oNumberOfDisconnects, (c, d) => c - d);
 
         oNumberOfControllers.subscribe((number) => {
+            console.log('oNumber_subscribe: ', number);
             this.numberOfControllers = number;
             viewerEventBus.emit('numberControllers', number);
         })
@@ -53,8 +54,6 @@ module.exports = class {
         oViewerConnections.subscribe((connection) => {
             console.log('new Viewer');
             viewerEventBus.on('event', viewerEventData => {
-                console.log('sending');
-                console.log(viewerEventData);
                 connection.send(viewerEventData);
             });
             viewerEventBus.on('numberControllers', number => {
@@ -94,12 +93,13 @@ module.exports = class {
         })
 
         oControllerEvents.subscribe(value => {
-            console.log('oControllerEvent: ', value);
+            //console.log('oControllerEvent: ', value);
         });
 
         oControllerConnections
             .subscribe((data) => {
                 console.log('<2')
+                let currentNumberOfControllers = this.numberOfControllers;
                 data.send({
                     eventType: 'init',
                     msg: 'waitingForPlayers'
@@ -109,7 +109,8 @@ module.exports = class {
                     .filter(value => {return value})
                     .subscribe(() => {
                         console.log('player ready', data);
-                        let player = playerStore.createPlayer(this.numberOfControllers % 2);
+                        let player = playerStore.createPlayer(currentNumberOfControllers % 2);
+                        console.log('new controller created; total number: ', this.numberOfControllers);
 
                         viewerEventBus.emit('newPlayer', player);
 

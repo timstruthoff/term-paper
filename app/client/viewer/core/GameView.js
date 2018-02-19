@@ -143,4 +143,14 @@ export default class GameView {
         this.webGL.onResize();
 
     }
+
+    movePaddle(side, position){
+        this.webGL.movePaddle(side, position);
+    }
+    addPlayerBox(player){
+        this.webGL.addPlayerbox(player);
+    }
+    movePlayerBox(id, position){
+        this.webGL.movePlayerbox(id, position);
+    }
 }
