@@ -53,6 +53,14 @@ module.exports = class {
         // routing controller events to viewer
         oViewerConnections.subscribe((connection) => {
             console.log('new Viewer');
+
+            for (let uid in playerStore.store) {
+                connection.send({
+                    type: 'newPlayer',
+                    player: playerStore.store[uid]
+                });
+            }
+
             viewerEventBus.on('event', viewerEventData => {
                 connection.send(viewerEventData);
             });
@@ -107,6 +115,7 @@ module.exports = class {
                 
                 oEnoughPlayers
                     .filter(value => {return value})
+                    .first()
                     .subscribe(() => {
                         console.log('player ready', data);
                         let player = playerStore.createPlayer(currentNumberOfControllers % 2);
@@ -123,6 +132,7 @@ module.exports = class {
 
                 oEnoughPlayers
                     .filter(value => {return !value})
+                    .first()
                     .subscribe(() => {
                         console.log('player wait', data);
                         data.send({
