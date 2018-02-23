@@ -11,8 +11,6 @@ import SpotLight from './objects/SpotLight';
 class WebGL {
 
     constructor(w, h) {
-        this.numberOfPlayersL = 0;
-        this.numberOfPlayersR = 0;
 
         this.createScene();
         this.createRenderer(w, h);
@@ -131,18 +129,26 @@ class WebGL {
     }
 
     addPlayerbox(player){
-        let numberY = 0;
-        if(player.side == 0){
-            numberY = this.numberOfPlayersL++;
-        }else if(player.side == 1){
-            numberY = this.numberOfPlayersR++;
-        }
-        this.objects.playerBoxes[player.uid] = new PlayerBox(player.side, numberY);
+        this.objects.playerBoxes[player.uid] = new PlayerBox(player.side);
         this.scene.add(this.objects.playerBoxes[player.uid].obj);
+    }
+    removePlayerbox(uid){
+        if(this.objects.playerBoxes[uid] != undefined){
+            this.scene.remove(this.objects.playerBoxes[uid].obj);
+        }
+        delete this.objects.playerBoxes[uid];
     }
 
     movePlayerbox(id, position){
         this.objects.playerBoxes[id].move(position);
+    }
+
+    updatePlayerboxes(store){
+        for (let i = 0; i < store.length; i++){
+            if(this.objects.playerBoxes[store[i].uid] != undefined){
+                this.objects.playerBoxes[store[i].uid].number = i;
+            }
+        }
     }
 
 

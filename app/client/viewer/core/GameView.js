@@ -9,7 +9,7 @@ import WebGL from '../webgl/WebGL';
 export default class GameView {
 
     constructor(args) {
-        this.webgl = null;
+        this.webGL = null;
         console.log(THREE.REVISION)
         this.gui = null;
         this.clock = new THREE.Clock();

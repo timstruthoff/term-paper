@@ -12,8 +12,12 @@ module.exports = class{
         return player;
     }
 
-    getPlayer(id){
-        return this.store[id];
+    removePlayer(uid){
+        delete this.store[uid];
+    }
+
+    getPlayer(uid){
+        return this.store[uid];
     }
 
 

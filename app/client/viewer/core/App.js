@@ -112,6 +112,26 @@ export default class App {
             this.playerStore.addPlayer(event.player);
             //console.log(this.playerStore);
             this.gameView.addPlayerBox(event.player);
+            if(event.player.side == 0){
+                this.gameView.webGL.updatePlayerboxes(this.playerStore.sortedL);
+            }else{
+                this.gameView.webGL.updatePlayerboxes(this.playerStore.sortedR);
+            }
+        } );
+        
+        let oRemovePlayers = stream.filter(event => {
+            return event.type == 'removePlayer';
+        });
+
+        oRemovePlayers.subscribe( event => {
+            console.log('removePlayer', event);
+            this.playerStore.removePlayer(event.player.uid);
+            this.gameView.webGL.removePlayerbox(event.player.uid);
+            if(event.player.side == 0){
+                this.gameView.webGL.updatePlayerboxes(this.playerStore.sortedL);
+            }else{
+                this.gameView.webGL.updatePlayerboxes(this.playerStore.sortedR);
+            }
         } );
 
 

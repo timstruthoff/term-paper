@@ -55,10 +55,12 @@ module.exports = class {
             console.log('new Viewer');
 
             for (let uid in playerStore.store) {
-                connection.send({
-                    type: 'newPlayer',
-                    player: playerStore.store[uid]
-                });
+                if(playerStore.store[uid] != undefined){
+                    connection.send({
+                        type: 'newPlayer',
+                        player: playerStore.store[uid]
+                    });
+                }
             }
 
             viewerEventBus.on('event', viewerEventData => {
@@ -74,6 +76,12 @@ module.exports = class {
             viewerEventBus.on('newPlayer', player => {
                 connection.send({
                     type: 'newPlayer',
+                    player
+                });
+            });
+            viewerEventBus.on('removePlayer', player => {
+                connection.send({
+                    type: 'removePlayer',
                     player
                 });
             });
@@ -104,11 +112,15 @@ module.exports = class {
             //console.log('oControllerEvent: ', value);
         });
 
+        oControllerDisconnect.subscribe( e => {
+
+        });
+
         oControllerConnections
-            .subscribe((data) => {
+            .subscribe((connection) => {
                 console.log('<2')
                 let currentNumberOfControllers = this.numberOfControllers;
-                data.send({
+                connection.send({
                     eventType: 'init',
                     msg: 'waitingForPlayers'
                 });
@@ -117,25 +129,32 @@ module.exports = class {
                     .filter(value => {return value})
                     .first()
                     .subscribe(() => {
-                        console.log('player ready', data);
+                        console.log('player ready', connection);
                         let player = playerStore.createPlayer(currentNumberOfControllers % 2);
                         console.log('new controller created; total number: ', this.numberOfControllers);
 
                         viewerEventBus.emit('newPlayer', player);
 
-                        data.send({
+                        connection.send({
                             eventType: 'init',
                             msg: 'ready',
                             player
                         });
+
+                        let disconnectObserver = Rx.Observable.create(connection.disconnectObserver);
+                        disconnectObserver.first().subscribe( () => {
+                            playerStore.removePlayer(player.uid);
+                            viewerEventBus.emit('removePlayer', player);
+                        });
+
                     });
 
                 oEnoughPlayers
                     .filter(value => {return !value})
                     .first()
                     .subscribe(() => {
-                        console.log('player wait', data);
-                        data.send({
+                        console.log('player wait', connection);
+                        connection.send({
                             eventType: 'init',
                             msg: 'waitingForPlayers'
                         });
