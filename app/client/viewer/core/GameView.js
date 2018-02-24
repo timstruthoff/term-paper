@@ -58,7 +58,7 @@ export default class GameView {
     }
 
     /*
-	Creating the stats display and showing itif in debug mode.
+	Creating the stats display and showing it if in debug mode.
     */
     startStats() {
         this.stats = new Stats();

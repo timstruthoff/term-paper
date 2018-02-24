@@ -10,6 +10,7 @@ import raf from 'raf';
 import Websocket from './../components/Websocket';
 import GameView from './GameView';
 import PlayerStore from './../components/PlayerStore';
+import PerSecond from './../util/PerSecond';
 
 
 export default class App {
@@ -18,6 +19,8 @@ export default class App {
         this.socket = new Websocket();
         this.playerStore = new PlayerStore();
         this.gameView = new GameView();
+
+        let eventsPerSecond = new PerSecond('Events per second: ');
         
         let stream = Rx.Observable
             .create(this.socket.observerFunction)
@@ -28,6 +31,7 @@ export default class App {
         
         stream.subscribe((data) => {
             //console.log(data);
+            eventsPerSecond.emit();
         });
 
         let oEvents = stream
@@ -40,7 +44,7 @@ export default class App {
                 return event;
             });
             oEvents.subscribe( event => {
-                console.log('general event: ', event);
+                //console.log('general event: ', event);
                 if(event.player != undefined){
                     this.gameView.movePlayerBox(event.player.uid, event.beta); 
                 }
@@ -95,11 +99,11 @@ export default class App {
                 .map(o => o.sum / o.count);
             });
         oRightSideEvents.subscribe( event => {
-            console.log('right event: ', event);
+            //console.log('right event: ', event);
             this.gameView.movePaddle(1, event);
         });
         oLeftSideEvents.subscribe( event => {
-            console.log('left event: ', event);
+            //console.log('left event: ', event);
             this.gameView.movePaddle(0, event);
         });
 

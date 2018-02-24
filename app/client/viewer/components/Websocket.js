@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 export default class Websocket {
 
     constructor() {
-        const socket = io('http://localhost:3000');
+        const socket = io();
 
         this.observerFunction = (observer) => {
             socket.on('connect', () => {

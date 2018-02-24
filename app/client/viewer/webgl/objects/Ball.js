@@ -11,7 +11,7 @@ export default class {
         this.obj = new THREE.Mesh(geometry, material);
         this.obj.castShadow = true;
 
-        this.speed = 20; // becoming buggy at ~40+
+        this.speed = 1; // becoming buggy at ~40+
         this.reset();
         this.maxBounceAngle = (75/180*Math.PI);
 
