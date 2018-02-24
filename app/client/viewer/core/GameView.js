@@ -1,3 +1,5 @@
+import CONFIG from './../../config';
+
 import dat  from 'dat-gui';
 import raf from 'raf';
 import Stats  from 'stats.js';
@@ -13,7 +15,6 @@ export default class GameView {
         console.log(THREE.REVISION)
         this.gui = null;
         this.clock = new THREE.Clock();
-        this.DEBUG = true;
         this.SIZE = {
             w: window.innerWidth,
             w2: window.innerWidth / 2,
@@ -65,7 +66,7 @@ export default class GameView {
         this.eventPanel = this.stats.addPanel( new Stats.Panel( 'test', '#ff8', '#221' ) );
         this.stats.showPanel( 2 );
 
-        this.stats.dom.style.display = this.DEBUG ? 'block' : 'none';
+        this.stats.dom.style.display = CONFIG.DEBUG ? 'block' : 'none';
         document.body.appendChild( this.stats.dom );
     }
 
@@ -79,7 +80,7 @@ export default class GameView {
     */
     startGUI() {
         this.gui = new dat.GUI()
-        this.gui.domElement.style.display = this.DEBUG ? 'block' : 'none';
+        this.gui.domElement.style.display = CONFIG.DEBUG ? 'block' : 'none';
 
         let cameraFolder = this.gui.addFolder('Camera');
         //cameraFolder.add(this.webGL.camera.position, 'x', -10, 10);

@@ -1,3 +1,5 @@
+import CONFIG from './../../config';
+
 import * as THREE from 'three'; //import THREE from 'three' doesn't work.
 import OrbitControls from 'three-orbitcontrols';
 
@@ -95,13 +97,13 @@ class WebGL {
         this.objects.spotLight = new SpotLight();
         this.scene.add(this.objects.spotLight.obj);
 
-        this.objects.lightHelper = new THREE.SpotLightHelper(this.objects.spotLight.obj);
-        this.scene.add(this.objects.lightHelper);
-
-        this.objects.shadowCameraHelper = new THREE.CameraHelper(this.objects.spotLight.obj.shadow.camera);
-        this.scene.add(this.objects.shadowCameraHelper);
-
-        this.scene.add(new THREE.AxesHelper(10));
+        if(CONFIG.DISPLAY_HELPERS) {
+            this.objects.lightHelper = new THREE.SpotLightHelper(this.objects.spotLight.obj);
+            this.scene.add(this.objects.lightHelper);
+            this.objects.shadowCameraHelper = new THREE.CameraHelper(this.objects.spotLight.obj.shadow.camera);
+            this.scene.add(this.objects.shadowCameraHelper);
+            this.scene.add(new THREE.AxesHelper(10));
+        }
 
         this.objects.ground = new Ground();
         this.scene.add(this.objects.ground.obj);
@@ -141,8 +143,11 @@ class WebGL {
     Updating everything on requestAnimationFrame
     */
     update(el) {
+        if(CONFIG.DISPLAY_HELPERS) {
         this.objects.lightHelper.update();
         this.objects.shadowCameraHelper.update();
+        }
+
         if(this.objects.ball.obj.position.x < this.objects.paddleL.obj.position.x ){
             this.objects.ball.reset();
             this.objects.counter.increaseRight();

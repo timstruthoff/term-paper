@@ -4,6 +4,8 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/window';
 import 'rxjs/add/operator/average';*/
+import CONFIG from './../../config';
+
 import Rx from 'rxjs/Rx';
 import raf from 'raf';
 

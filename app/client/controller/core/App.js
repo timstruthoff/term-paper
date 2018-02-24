@@ -1,3 +1,5 @@
+import CONFIG from './../../config';
+
 import Websocket from "./../components/Websocket";
 import GyroEventGenerator from "./../components/GyroEventGenerator";
 import Overlay from "./../components/Overlay";

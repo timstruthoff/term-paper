@@ -1,3 +1,5 @@
+import CONFIG from './../../config';
+
 import * as THREE from 'three'; //import THREE from 'three' doesn't work.
 
 import Cube from './objects/Cube';
@@ -61,11 +63,12 @@ class WebGL {
         this.objects.spotLight = new SpotLight();
         this.scene.add(this.objects.spotLight.obj);
 
-        this.objects.lightHelper = new THREE.SpotLightHelper(this.objects.spotLight.obj);
-        this.scene.add(this.objects.lightHelper);
+        if(CONFIG.DISPLAY_HELPERS) {
+            this.objects.lightHelper = new THREE.SpotLightHelper(this.objects.spotLight.obj);
+            this.scene.add(this.objects.lightHelper);
 
-
-        this.scene.add(new THREE.AxesHelper(10));
+            this.scene.add(new THREE.AxesHelper(10));
+        }
         
         this.objects.cube = new Cube();
         this.scene.add(this.objects.cube.obj);
@@ -105,7 +108,9 @@ class WebGL {
     Updating everything on requestAnimationFrame
     */
     update(el) {
-        this.objects.lightHelper.update();
+        if(CONFIG.DISPLAY_HELPERS) {
+            this.objects.lightHelper.update();
+        }
         this.renderer.render(this.scene, this.camera);
     }
 
