@@ -1,5 +1,5 @@
 import Websocket from "./../components/Websocket";
-import RandomEventGenerator from "./../components/RandomEventGenerator";
+import GyroEventGenerator from "./../components/GyroEventGenerator";
 import Overlay from "./../components/Overlay";
 
 import dat from 'dat-gui';
@@ -30,7 +30,7 @@ export default class {
 
         this.websocket = new Websocket();
 
-        this.eventGenerator = new RandomEventGenerator();
+        this.eventGenerator = new GyroEventGenerator();
         this.eventGenerator.onChange = (data) => {
             this.webGL.cubeRotationX = (data.beta - 0.5) * Math.PI;
             this.websocket.handleEvent({

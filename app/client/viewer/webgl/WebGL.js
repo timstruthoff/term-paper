@@ -135,9 +135,19 @@ class WebGL {
     update(el) {
         this.objects.lightHelper.update();
         this.objects.shadowCameraHelper.update();
-        let collisionR = this.objects.ball.touches([this.objects.paddleL.obj, this.objects.paddleR.obj]);
+        if(this.objects.ball.obj.position.x < this.objects.paddleL.obj.position.x ){
+
+        }else if( this.objects.ball.obj.position.x > this.objects.paddleR.obj.position.x ){
+
+        }
+
+        if( this.objects.ball.obj.position.z < this.objects.paddleL.lengthOfTravelZ / (-2) ){
+            this.objects.ball.direction *= -1;            
+        }else if( this.objects.ball.obj.position.z > this.objects.paddleL.lengthOfTravelZ / 2 ){
+            this.objects.ball.direction *= -1;            
+        }
         let paddle = null;
-        switch(collisionR){
+        switch( this.objects.ball.touches([this.objects.paddleL.obj, this.objects.paddleR.obj]) ){
             case this.objects.paddleL.obj.uuid:
                 paddle = this.objects.paddleL; 
                 break;

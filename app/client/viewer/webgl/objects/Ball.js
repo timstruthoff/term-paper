@@ -7,7 +7,7 @@ export default class {
             color: 0x4080ff,
             dithering:true
         });
-        var geometry = new THREE.CylinderGeometry(0.5,0.5, 0.3, 12, 2);
+        var geometry = new THREE.CylinderGeometry(0.5,0.5, 0.15, 12, 2);
         this.obj = new THREE.Mesh(geometry, material);
         this.obj.position.set(0,0.3,0);
         this.obj.castShadow = true;
