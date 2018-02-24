@@ -4,6 +4,7 @@ import OrbitControls from 'three-orbitcontrols';
 import Paddle from './objects/Paddle';
 import PlayerBox from './objects/PlayerBox';
 import Ball from './objects/Ball';
+import Counter from './objects/Counter';
 import Ground from './objects/Ground';
 import AmbientLight from './objects/AmbientLight';
 import SpotLight from './objects/SpotLight';
@@ -112,6 +113,11 @@ class WebGL {
         this.objects.ball = new Ball();
         this.scene.add(this.objects.ball.obj);
 
+        this.objects.counter = new Counter();
+        this.scene.add(this.objects.counter.objColon);
+        this.scene.add(this.objects.counter.objLeftNumber);
+        this.scene.add(this.objects.counter.objRightNumber);
+
     }
 
 
@@ -136,9 +142,11 @@ class WebGL {
         this.objects.lightHelper.update();
         this.objects.shadowCameraHelper.update();
         if(this.objects.ball.obj.position.x < this.objects.paddleL.obj.position.x ){
-
+            this.objects.ball.reset();
+            this.objects.counter.increaseRight();
         }else if( this.objects.ball.obj.position.x > this.objects.paddleR.obj.position.x ){
-
+            this.objects.ball.reset();
+            this.objects.counter.increaseLeft();
         }
 
         if( this.objects.ball.obj.position.z < this.objects.paddleL.lengthOfTravelZ / (-2) ){

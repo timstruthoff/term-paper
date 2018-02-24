@@ -7,13 +7,12 @@ export default class {
             color: 0x4080ff,
             dithering:true
         });
-        var geometry = new THREE.CylinderGeometry(0.5,0.5, 0.15, 12, 2);
+        var geometry = new THREE.CylinderGeometry(0.5,0.5, 0.3, 12, 2);
         this.obj = new THREE.Mesh(geometry, material);
-        this.obj.position.set(0,0.3,0);
         this.obj.castShadow = true;
 
-        this.speed = 10; // becoming buggy at ~40+
-        this.direction = Math.PI; //(Math.random() < 0.5) ? Math.PI : 0;
+        this.speed = 20; // becoming buggy at ~40+
+        this.reset();
         this.maxBounceAngle = (75/180*Math.PI);
 
     }
@@ -24,6 +23,11 @@ export default class {
         let deltaZ = deltaTime * this.speed * Math.sin(this.direction);
         this.obj.position.x += deltaX;
         this.obj.position.z += deltaZ;
+    }
+
+    reset(){
+        this.obj.position.set(0,0.15,0);
+        this.direction = (Math.random() < 0.5) ? Math.PI : 0;
     }
 
     touches(collidableMeshList){
