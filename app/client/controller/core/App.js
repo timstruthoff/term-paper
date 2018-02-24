@@ -1,5 +1,5 @@
 import Websocket from "./../components/Websocket";
-import GyroEventGenerator from "./../components/GyroEventGenerator";
+import RandomEventGenerator from "./../components/RandomEventGenerator";
 import Overlay from "./../components/Overlay";
 
 import dat from 'dat-gui';
@@ -10,10 +10,11 @@ import * as THREE from 'three';
 
 import WebGL from '../webgl/WebGL';
 
-export default class App {
+export default class {
 
     constructor(args) {
         this.webgl = null;
+
         console.log(THREE.REVISION)
         this.gui = null;
         this.clock = new THREE.Clock();
@@ -29,7 +30,7 @@ export default class App {
 
         this.websocket = new Websocket();
 
-        this.eventGenerator = new GyroEventGenerator();
+        this.eventGenerator = new RandomEventGenerator();
         this.eventGenerator.onChange = (data) => {
             this.webGL.cubeRotationX = (data.beta - 0.5) * Math.PI;
             this.websocket.handleEvent({
@@ -140,6 +141,7 @@ export default class App {
     /*
 	Updating everything on request animation frame.
     */
+    
     update() {
 
         this.stats.begin();

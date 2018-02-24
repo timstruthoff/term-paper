@@ -3,6 +3,7 @@ import OrbitControls from 'three-orbitcontrols';
 
 import Paddle from './objects/Paddle';
 import PlayerBox from './objects/PlayerBox';
+import Ball from './objects/Ball';
 import Ground from './objects/Ground';
 import AmbientLight from './objects/AmbientLight';
 import SpotLight from './objects/SpotLight';
@@ -21,6 +22,19 @@ class WebGL {
         this.createControls();
 
         this.update();
+
+        /*let helpers = this.objects.ball.touches([this.objects.paddleL.obj, this.objects.paddleR.obj]);
+        for (let helper of helpers){
+            this.scene.add(helper.arrow);
+            this.scene.add(helper.point);
+        }*/
+        /*
+        if( this.objects.ball.touches([this.objects.paddleL.obj, this.objects.paddleR.obj]) ){
+            console.log('collision at: ', this.objects.ball.obj.position);
+            this.objects.ball.speed = 0;
+        }*/
+
+        
     }
 
     /*
@@ -58,7 +72,7 @@ class WebGL {
     */
     createControls() {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.minDistance = 20;
+        this.controls.minDistance = 1;
         this.controls.maxDistance = 500;
         this.controls.enablePan = false;
         this.controls.target.set(0,0,0);
@@ -94,6 +108,9 @@ class WebGL {
         this.objects.paddleR = new Paddle(1);
         this.scene.add(this.objects.paddleR.obj);
 
+        this.objects.ball = new Ball();
+        this.scene.add(this.objects.ball.obj);
+
     }
 
 
@@ -117,6 +134,19 @@ class WebGL {
     update(el) {
         this.objects.lightHelper.update();
         this.objects.shadowCameraHelper.update();
+        let collisionR = this.objects.ball.touches([this.objects.paddleL.obj, this.objects.paddleR.obj]);
+        switch(collisionR){
+            case this.objects.paddleL.obj.uuid:
+                console.log('paddleL');
+                break;
+            case this.objects.paddleR.obj.uuid:
+                console.log('paddleR');
+                break;
+        }
+
+
+
+        this.objects.ball.update(el);
         this.renderer.render(this.scene, this.camera);
     }
 

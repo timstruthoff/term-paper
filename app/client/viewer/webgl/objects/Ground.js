@@ -9,7 +9,7 @@ export default class Ground {
         });
         var geometry = new THREE.BoxGeometry(2000, 1, 2000);
         this.obj = new THREE.Mesh(geometry, material);
-        this.obj.position.set(0, -1, 0);
+        this.obj.position.set(0, -0.5, 0);
         this.obj.receiveShadow = true;
     }
 

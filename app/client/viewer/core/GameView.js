@@ -107,7 +107,7 @@ export default class GameView {
 
         this.stats.begin();
 
-        let el = this.clock.getElapsedTime() * .05;
+        //let el = this.clock.getElapsedTime() * .05;
         let d = this.clock.getDelta();
 
         this.webGL.update(d);

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export default class Paddle {
+export default class {
 
     constructor(side) {
         var material = new THREE.MeshPhongMaterial({
@@ -11,9 +11,9 @@ export default class Paddle {
         this.obj = new THREE.Mesh(geometry, material);
         this.homePosZ = 0;
         if(side == 0){
-            this.obj.position.set(-10, 0, this.homePosZ);
+            this.obj.position.set(-10, 0.5, this.homePosZ);
         }else if(side == 1){
-            this.obj.position.set(10, 0, this.homePosZ);
+            this.obj.position.set(10, 0.5, this.homePosZ);
         }
         this.obj.castShadow = true;
     }
