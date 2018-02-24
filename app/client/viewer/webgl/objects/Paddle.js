@@ -12,9 +12,9 @@ export default class {
         this.homePosZ = 0;
         this.lengthOfTravelZ = 40;
         if(side == 0){
-            this.obj.position.set(-10, 0.5, this.homePosZ);
+            this.obj.position.set(-30.5, 0.5, this.homePosZ);
         }else if(side == 1){
-            this.obj.position.set(10, 0.5, this.homePosZ);
+            this.obj.position.set(30.5, 0.5, this.homePosZ);
         }
         this.obj.castShadow = true;
     }
