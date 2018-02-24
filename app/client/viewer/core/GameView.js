@@ -1,6 +1,6 @@
 import dat  from 'dat-gui';
 import raf from 'raf';
-import Stats  from 'stats-js';
+import Stats  from 'stats.js';
 
 import * as THREE from 'three';
 
@@ -62,12 +62,15 @@ export default class GameView {
     */
     startStats() {
         this.stats = new Stats();
-        this.stats.domElement.style.position = 'absolute';
-        this.stats.domElement.style.top = 0;
-        this.stats.domElement.style.display = this.DEBUG ? 'block' : 'none';
-        this.stats.domElement.style.left = 0;
-        this.stats.domElement.style.zIndex = 50;
-        document.body.appendChild(this.stats.domElement);
+        this.eventPanel = this.stats.addPanel( new Stats.Panel( 'test', '#ff8', '#221' ) );
+        this.stats.showPanel( 2 );
+
+        this.stats.dom.style.display = this.DEBUG ? 'block' : 'none';
+        document.body.appendChild( this.stats.dom );
+    }
+
+    updateEventsPerSecond (eps) {
+        this.eventPanel.update( eps, 460 );
     }
 
 
@@ -104,11 +107,13 @@ export default class GameView {
 	Updating everything on request animation frame.
     */
     update() {
-
+        
         this.stats.begin();
 
         //let el = this.clock.getElapsedTime() * .05;
         let d = this.clock.getDelta();
+
+        
 
         this.webGL.update(d);
 

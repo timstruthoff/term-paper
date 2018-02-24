@@ -21,6 +21,10 @@ export default class App {
         this.gameView = new GameView();
 
         let eventsPerSecond = new PerSecond('Events per second: ');
+
+        eventsPerSecond.listener = (number) => {
+            this.gameView.updateEventsPerSecond(number);
+        }
         
         let stream = Rx.Observable
             .create(this.socket.observerFunction)

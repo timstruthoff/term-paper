@@ -4,7 +4,7 @@ import Overlay from "./../components/Overlay";
 
 import dat from 'dat-gui';
 import raf from 'raf';
-import Stats from 'stats-js';
+import Stats from 'stats.js';
 
 import * as THREE from 'three';
 
