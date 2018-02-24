@@ -7,6 +7,7 @@ import Ball from './objects/Ball';
 import Ground from './objects/Ground';
 import AmbientLight from './objects/AmbientLight';
 import SpotLight from './objects/SpotLight';
+import { BoundCallbackObservable } from 'rxjs/observable/BoundCallbackObservable';
 
 
 class WebGL {
@@ -44,7 +45,7 @@ class WebGL {
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
-        this.camera.position.set(0, 20, -60);
+        this.camera.position.set(0, 20, 60);
 
         window.scene = this.scene;
         window.THREE = THREE;
@@ -135,13 +136,27 @@ class WebGL {
         this.objects.lightHelper.update();
         this.objects.shadowCameraHelper.update();
         let collisionR = this.objects.ball.touches([this.objects.paddleL.obj, this.objects.paddleR.obj]);
+        let paddle = null;
         switch(collisionR){
             case this.objects.paddleL.obj.uuid:
-                console.log('paddleL');
+                paddle = this.objects.paddleL; 
                 break;
             case this.objects.paddleR.obj.uuid:
-                console.log('paddleR');
+                paddle = this.objects.paddleR;
                 break;
+            default:
+                paddle = null;
+        }
+
+        if(paddle){
+            let relativeZ = this.objects.ball.obj.position.z - paddle.obj.position.z;
+            let normalizedRelativeZ = 2*relativeZ / paddle.obj.geometry.parameters.depth;
+            let bounceAngle = normalizedRelativeZ * this.objects.ball.maxBounceAngle;
+            if(paddle.obj.uuid == this.objects.paddleL.obj.uuid){
+                this.objects.ball.direction = bounceAngle;
+            }else{
+                this.objects.ball.direction = Math.PI - bounceAngle;
+            }
         }
 
 

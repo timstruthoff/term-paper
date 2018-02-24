@@ -3,17 +3,17 @@ import * as THREE from 'three';
 export default class {
 
     constructor() {
-        var material = new THREE.MeshBasicMaterial({
+        var material = new THREE.MeshPhongMaterial({
             color: 0x4080ff,
-            wireframe:true
+            dithering:true
         });
         var geometry = new THREE.CylinderGeometry(0.5,0.5, 0.3, 12, 2);
         this.obj = new THREE.Mesh(geometry, material);
         this.obj.position.set(0,0.3,0);
         this.obj.castShadow = true;
 
-        this.speed = 1; // becoming buggy at ~40+
-        this.direction = (Math.random() < 0.5) ? Math.PI : 0;
+        this.speed = 10; // becoming buggy at ~40+
+        this.direction = Math.PI; //(Math.random() < 0.5) ? Math.PI : 0;
         this.maxBounceAngle = (75/180*Math.PI);
 
     }
@@ -58,7 +58,6 @@ export default class {
 
             if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) 
             {
-                this.direction += Math.PI;
                 return collisionResults[0].object.uuid;
             }
 
