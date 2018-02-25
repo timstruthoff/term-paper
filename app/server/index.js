@@ -3,20 +3,13 @@ const http = require('http');
 
 const express = require('express');
 const app = express();
-const exphbs = require('express-handlebars');
 
 const Websocket = require('./../../app/server/core/Websocket');
 const Rx = require('./../../app/server/core/Rx');
 
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
+app.use('/', express.static(path.join(__dirname, './../../dist/')));
 
-app.get('/', function (req, res) {
-    res.render(__dirname + '/../client/static/index.handlebars', {
-        test_var: "test123",
-        hello_world: "hello_world"
-    });
-});
+console.log(path.resolve(path.join(__dirname, './../../dist/')))
 
 var server = http.Server(app);
 
