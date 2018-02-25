@@ -1,12 +1,11 @@
-/*import { Observable } from 'rxjs/Observable';
+import CONFIG from './../../config';
+
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/window';
-import 'rxjs/add/operator/average';*/
-import CONFIG from './../../config';
-
-import Rx from 'rxjs/Rx';
+import 'rxjs/add/operator/reduce';
 import raf from 'raf';
 
 import Websocket from './../components/Websocket';
@@ -28,10 +27,10 @@ export default class App {
             this.gameView.updateEventsPerSecond(number);
         }
         
-        let stream = Rx.Observable
+        let stream = Observable
             .create(this.socket.observerFunction)
             .flatMap((x) => {
-                return Rx.Observable.create(x.stream);
+                return Observable.create(x.stream);
             });
 
         
@@ -56,7 +55,7 @@ export default class App {
                 }
             });
         
-        let oRAF = Rx.Observable // RAF = Request Animation Frame
+        let oRAF = Observable // RAF = Request Animation Frame
             .create(observer => {
                 let update = () => {
                     observer.next();
