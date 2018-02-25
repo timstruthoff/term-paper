@@ -31,5 +31,5 @@ var websocket = new Websocket(server);
 var rx = new Rx(websocket);
 
 server.listen(3000, function () {
-    console.log('Example app listening on port 3000!\n');
+    console.log('Listening on port 3000!\n');
 });
