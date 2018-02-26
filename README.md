@@ -5,7 +5,10 @@
 `npm install`
 
 Build for production:
-`npm build`
+`npm run build`
+
+Start server:
+`npm run`
 
 Run in development mode:
-`npm run`
+`npm run dev-start`

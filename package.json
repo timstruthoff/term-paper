@@ -7,10 +7,9 @@
   "author": "Tim Struthoff <tim.struthoff@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --config tools/webpack/webpack.config.js --open",
+    "start": "nodemon app/server/index.js",
     "build": "webpack --config tools/webpack/webpack.prod.config.js",
-    "server_start": "nodemon app/server/index.js",
-    "dev-server": "nodemon tools/dev-server"
+    "dev-start": "nodemon tools/dev-server"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
