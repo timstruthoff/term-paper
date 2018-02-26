@@ -1,3 +1,5 @@
+const CONFIG = require('./config');
+
 const path = require('path');
 const http = require('http');
 
@@ -16,6 +18,6 @@ var server = http.Server(app);
 var websocket = new Websocket(server);
 var rx = new Rx(websocket);
 
-server.listen(3000, function () {
-    console.log('Listening on port 3000!\n');
+server.listen(CONFIG.PORT, function () {
+    console.log(`Listening on port ${CONFIG.PORT}!`);
 });
