@@ -5,7 +5,6 @@ import GyroEventGenerator from "./../components/GyroEventGenerator";
 import TouchEventGenerator from "./../components/TouchEventGenerator";
 import Overlay from "./../components/Overlay";
 
-import dat from 'dat-gui';
 import raf from 'raf';
 import Stats from 'stats.js';
 
@@ -19,7 +18,6 @@ export default class {
         this.webgl = null;
 
         console.log(THREE.REVISION)
-        this.gui = null;
         this.clock = new THREE.Clock();
         this.DEBUG = true;
         this.SIZE = {
@@ -51,7 +49,6 @@ export default class {
         this.startWebGL();
 
         this.startStats();
-        this.startGUI();
 
         this.addEventListener();
 
@@ -119,25 +116,6 @@ export default class {
         this.stats.domElement.style.zIndex = 50;
         document.body.appendChild(this.stats.domElement);
     }
-
-
-    /*
-	Creating the data control panel.
-    */
-    startGUI() {
-        this.gui = new dat.GUI()
-        this.gui.domElement.style.display = this.DEBUG ? 'block' : 'none';
-
-        let cameraFolder = this.gui.addFolder('Camera');
-        //cameraFolder.add(this.webGL.camera.position, 'x', -10, 10);
-        //cameraFolder.add(this.webGL.camera.position, 'y', -10, 10);
-        //cameraFolder.add(this.webGL.camera.position, 'z', 50, 150);
-
-        let composerFolder = this.gui.addFolder('PostProcessing');
-        //composerFolder.add(this.webGL, 'useComposer');
-
-    }
-
 
     /*
 	Initializing the WebGL module.
