@@ -11,9 +11,9 @@ export default class {
         var geometry = new THREE.BoxGeometry(1, 1, CONFIG.PADDLE_DEPTH);
         this.obj = new THREE.Mesh(geometry, material);
         if(side == 0){
-            this.obj.position.set(-30.5, 0.5, this.homePosZ);
+            this.obj.position.set(-30.5, 0.5, 0);
         }else if(side == 1){
-            this.obj.position.set(30.5, 0.5, this.homePosZ);
+            this.obj.position.set(30.5, 0.5, 0);
         }
         this.obj.castShadow = true;
     }
