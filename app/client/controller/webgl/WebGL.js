@@ -27,7 +27,7 @@ class WebGL {
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 1000);
-        this.camera.position.set(0, 20, 0);
+        this.camera.position.set(0, 7, 0);
         this.camera.lookAt(new THREE.Vector3( 0, 0, 0))
 
         window.scene = this.scene;
