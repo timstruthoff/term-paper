@@ -7,13 +7,13 @@ export default class {
             color: 0x4080ff,
             dithering: true
         });
-        var geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
         this.obj = new THREE.Mesh(geometry, material);
         this.homePosZ = 0;
         if(side == 0){
-            this.obj.position.set(-12, 1, this.homePosZ);
+            this.obj.position.set(-35, 2.5, this.homePosZ);
         }else if(side == 1){
-            this.obj.position.set(12, 1, this.homePosZ);
+            this.obj.position.set(35, 2.5, this.homePosZ);
         }
         this.obj.castShadow = true;
     }
@@ -23,7 +23,7 @@ export default class {
     }
 
     set number(number){
-        this.obj.position.y = number;
+        this.obj.position.y = number * 2 + 1.5;
     }
     get number(){
         return this.obj.position.y;
