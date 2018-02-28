@@ -23,4 +23,11 @@ export default class {
         this.obj.position.setZ(this.homePosZ + (position-0.5) * this.lengthOfTravelZ);
     }
 
+    set color (color) {
+        this.obj.material = new THREE.MeshPhongMaterial({
+            color: new THREE.Color(color),
+            dithering: true
+        });
+    }
+
 }

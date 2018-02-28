@@ -1,11 +1,20 @@
 const Rx = require('rxjs/Rx');
-const PlayerStore = require('./../components/PlayerStore');
+const randColor = require('randomcolor');
 const EventEmitter = require('events');
+
+const PlayerStore = require('./../components/PlayerStore');
 
 module.exports = class {
 
     constructor(websocket) {
         this.numberOfControllers = 2;
+        let leftSideColor = randColor({
+            format: 'rgb'
+        });
+        let rightSideColor = randColor({
+            format: 'rgb'
+        });
+
 
         let playerStore = new PlayerStore();
 
@@ -53,6 +62,14 @@ module.exports = class {
         // routing controller events to viewer
         oViewerConnections.subscribe((connection) => {
             console.log('new Viewer');
+
+            connection.send({
+                type: 'init',
+                config: {
+                    leftSideColor,
+                    rightSideColor
+                }
+            });
 
             for (let uid in playerStore.store) {
                 if(playerStore.store[uid] != undefined){
@@ -131,6 +148,9 @@ module.exports = class {
                     .subscribe(() => {
                         console.log('player ready', connection);
                         let player = playerStore.createPlayer(currentNumberOfControllers % 2);
+                        let sideColor = player.side == 0 ? leftSideColor : rightSideColor;
+                        player.color = sideColor;
+
                         console.log('new controller created; total number: ', this.numberOfControllers);
 
                         viewerEventBus.emit('newPlayer', player);

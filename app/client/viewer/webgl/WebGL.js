@@ -221,6 +221,14 @@ class WebGL {
         }
     }
 
+    setPaddleColor(side, color) {
+        if (side == 0) {
+            this.objects.paddleL.color = color;
+        } else {
+            this.objects.paddleR.color = color;
+        }
+    }
+
 
 
 }

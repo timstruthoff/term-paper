@@ -6,6 +6,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/window';
 import 'rxjs/add/operator/reduce';
+import 'rxjs/add/operator/first';
 import raf from 'raf';
 
 import Websocket from './../components/Websocket';
@@ -32,6 +33,21 @@ export default class App {
             .flatMap((x) => {
                 return Observable.create(x.stream);
             });
+
+        let initMsg = stream
+            .filter( event => {
+                return event.type == 'init';
+            })
+            .first();
+        
+        initMsg.subscribe(data => {
+            console.log('init', data);
+            if (typeof data.config == 'object' && typeof data.config.leftSideColor == 'string') {
+                console.log('yes color')
+                this.gameView.webGL.setPaddleColor(0, data.config.leftSideColor);
+                this.gameView.webGL.setPaddleColor(1, data.config.rightSideColor);
+            }
+        })
 
         
         stream.subscribe((data) => {

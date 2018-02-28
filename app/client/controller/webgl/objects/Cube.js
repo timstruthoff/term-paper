@@ -12,4 +12,11 @@ export default class Cube {
         this.obj.position.set(0, 0, 0);
     }
 
+    setColor (rgb) {
+        this.obj.material = new THREE.MeshStandardMaterial({
+            color: new THREE.Color(rgb),
+            dithering: true
+        });
+    }
+
 }

@@ -75,6 +75,10 @@ class WebGL {
 
     }
 
+    changePlayerColor(color) {
+        this.objects.cube.setColor(color);
+    }
+
     get cubeRotationX () {
         return this.objects.cube.obj.rotation.x;
     }

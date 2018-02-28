@@ -64,6 +64,8 @@ export default class {
             console.log(this);
             console.log('ready');
             console.log(player);
+
+            this.webGL.changePlayerColor(player.color);
             
             if (this.overlay != undefined) {
                 console.log('destroy')
