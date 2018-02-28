@@ -148,17 +148,17 @@ class WebGL {
         this.objects.shadowCameraHelper.update();
         }
 
-        if(this.objects.ball.obj.position.x < this.objects.paddleL.obj.position.x ){
+        if(this.objects.ball.obj.position.x < (CONFIG.PLAYINGFIELD_WIDTH / (-2)) + 0.25 ){
             this.objects.ball.reset();
             this.objects.counter.increaseRight();
-        }else if( this.objects.ball.obj.position.x > this.objects.paddleR.obj.position.x ){
+        }else if( this.objects.ball.obj.position.x > (CONFIG.PLAYINGFIELD_WIDTH / 2) - 0.25 ){
             this.objects.ball.reset();
             this.objects.counter.increaseLeft();
         }
 
-        if( this.objects.ball.obj.position.z < this.objects.paddleL.lengthOfTravelZ / (-2) ){
+        if( this.objects.ball.obj.position.z < (CONFIG.PLAYINGFIELD_DEPTH / (-2)) + 0.25 ){
             this.objects.ball.direction *= -1;            
-        }else if( this.objects.ball.obj.position.z > this.objects.paddleL.lengthOfTravelZ / 2 ){
+        }else if( this.objects.ball.obj.position.z > (CONFIG.PLAYINGFIELD_DEPTH / 2) - 0.25 ){
             this.objects.ball.direction *= -1;            
         }
         let paddle = null;
