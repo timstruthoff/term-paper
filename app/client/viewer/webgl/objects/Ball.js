@@ -1,10 +1,11 @@
 import * as THREE from 'three';
+import CONFIG from './../../../config';
 
 export default class {
 
     constructor() {
         var material = new THREE.MeshPhongMaterial({
-            color: 0x4080ff,
+            color: CONFIG.LIGHT_COLOR,
             dithering:true
         });
         var geometry = new THREE.CylinderGeometry(0.5,0.5, 0.3, 12, 2);

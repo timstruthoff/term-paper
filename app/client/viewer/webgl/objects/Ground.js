@@ -1,10 +1,11 @@
 import * as THREE from 'three';
+import CONFIG from './../../../config';
 
 export default class Ground {
 
     constructor() {
         var material = new THREE.MeshPhongMaterial({
-            color: 0xffffff,
+            color: CONFIG.DARK_COLOR,
             dithering: true
         });
         var geometry = new THREE.BoxGeometry(100, 1, 75);

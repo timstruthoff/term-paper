@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import CONFIG from './../../../config';
 import helvetiker_regular from './../../../static/helvetiker_regular.typeface.json';
 
 export default class{
@@ -19,7 +20,7 @@ export default class{
             bevelSegments: 5
         }
         this.material = new THREE.MeshPhongMaterial({
-            color: 0x4080ff,
+            color: CONFIG.LIGHT_COLOR,
             dithering: true
         });
 
