@@ -2,6 +2,7 @@ import CONFIG from './../../config';
 
 import Websocket from "./../components/Websocket";
 import GyroEventGenerator from "./../components/GyroEventGenerator";
+import TouchEventGenerator from "./../components/TouchEventGenerator";
 import Overlay from "./../components/Overlay";
 
 import dat from 'dat-gui';
@@ -38,6 +39,11 @@ export default class {
             this.websocket.handleEvent({
                 beta: data.beta
             });
+        }
+
+        this.touchEventGenerator = new TouchEventGenerator();
+        this.touchEventGenerator.onChange = (data) => {
+            console.log(data);
         }
 
         this.startWebGL();
