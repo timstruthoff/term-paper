@@ -4,7 +4,7 @@ export default class SpotLight {
 
     constructor() {
         this.obj = new THREE.SpotLight(0xffffff, 1);
-        this.obj.position.set(15, 40, 35);
+        this.obj.position.set(30, 60, 60);
         this.obj.angle = Math.PI / 4;
         this.obj.penumbra = 0.05;
         this.obj.decay = 2;
