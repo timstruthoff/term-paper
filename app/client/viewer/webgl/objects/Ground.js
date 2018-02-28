@@ -8,7 +8,7 @@ export default class Ground {
             color: CONFIG.DARK_COLOR,
             dithering: true
         });
-        var geometry = new THREE.BoxGeometry(100, 1, 75);
+        var geometry = new THREE.BoxGeometry(CONFIG.PLAYINGFIELD_WIDTH, 1, CONFIG.PLAYINGFIELD_DEPTH    );
         this.obj = new THREE.Mesh(geometry, material);
         this.obj.position.set(0, -0.5, 0);
         this.obj.receiveShadow = true;

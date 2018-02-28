@@ -20,7 +20,7 @@ export default class {
     }
 
     move(position){ //position information: 0..1
-        this.obj.position.setZ(this.homePosZ + (position-0.5) * 40);
+        this.obj.position.setZ(this.homePosZ + (position-0.5) * (CONFIG.PLAYINGFIELD_DEPTH - 1 - CONFIG.PADDLE_DEPTH));
     }
 
     set number(number){

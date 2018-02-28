@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import CONFIG from './../../../config';
 
 export default class {
 
@@ -7,10 +8,8 @@ export default class {
             color: 0x4080ff,
             dithering: true
         });
-        var geometry = new THREE.BoxGeometry(1, 1, 4);
+        var geometry = new THREE.BoxGeometry(1, 1, CONFIG.PADDLE_DEPTH);
         this.obj = new THREE.Mesh(geometry, material);
-        this.homePosZ = 0;
-        this.lengthOfTravelZ = 40;
         if(side == 0){
             this.obj.position.set(-30.5, 0.5, this.homePosZ);
         }else if(side == 1){
@@ -20,7 +19,7 @@ export default class {
     }
 
     move(position){ //position information: 0..1
-        this.obj.position.setZ(this.homePosZ + (position-0.5) * this.lengthOfTravelZ);
+        this.obj.position.setZ((position-0.5) * (CONFIG.PLAYINGFIELD_DEPTH - CONFIG.PADDLE_DEPTH));
     }
 
     set color (color) {
