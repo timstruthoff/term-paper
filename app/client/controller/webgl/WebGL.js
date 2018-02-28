@@ -95,6 +95,14 @@ class WebGL {
         this.objects.cube.obj.rotation.y = y;
     }
 
+    get cubeRotationZ () {
+        return this.objects.cube.obj.rotation.z;
+    }
+
+    set cubeRotationZ (z) {
+        this.objects.cube.obj.rotation.z = z;
+    }
+
     /*
     Handling a browser window resize and changing the render size accordingly.
     */

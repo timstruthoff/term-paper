@@ -5,23 +5,23 @@ export default class {
     constructor(args) {
         window.addEventListener('deviceorientation', (e) => {
             this.onChange({
-                beta: this.normalize(e.beta)
+                alphaOrig: this.normalize(e.alpha),
+                betaOrig: this.normalize(e.beta),
+                beta: this.sensitivity(this.normalize(e.beta)),
+                gammaOrig: this.normalize(e.gamma)
             });
-        }, false);
-        window.ondeviceorientation = (e) => {
-            this.onChange({
-                beta: this.normalize(e.beta)
-            });
-        }
+        }, false);  
     }
 
-    normalize(value) {
-        let normalized = (value / 360) + 0.5;
-        
+    sensitivity(value) {
         let sensitivity = 1 / CONFIG.CONTROLLER_SENSITIVITY;
         let lowerBorder = (1 - sensitivity) / 2;
         let upperBorder = 1 - ((1 - sensitivity) / 2);
-        return (Math.min(upperBorder, Math.max(lowerBorder, normalized)) - lowerBorder) * (1 / sensitivity); // limits number to 0 - 1
+        return (Math.min(upperBorder, Math.max(lowerBorder, value)) - lowerBorder) * (1 / sensitivity); // limits number to 0 - 1
+    }
+
+    normalize(value) {
+        return (value / 360) + 0.5;
     }
 
     onChange (data) {
