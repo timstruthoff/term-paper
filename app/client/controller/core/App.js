@@ -31,24 +31,13 @@ export default class {
 
         this.bind();
 
-        let dampen = (x) => {
-            console.log(x)
-            let y = -(Math.pow(Math.E, -x)) + 1;
-            console.log(y)
-            return y}
-
         this.websocket = new Websocket();
 
         this.eventGenerator = new GyroEventGenerator();
         this.eventGenerator.onChange = (data) => {
             console.log(data);
             this.webGL.cubeRotationX = (-data.betaOrig - 0.5) * Math.PI;
-            //this.webGL.cubeRotationY = (-data.alphaOrig - 0.5) * Math.PI;
-            if (data.gammaOrig - 0.5 < 0) {
-                this.webGL.cubeRotationZ = (-dampen(data.gammaOrig) - 0.5) * Math.PI;
-            } else {
-                this.webGL.cubeRotationZ = (-dampen(data.gammaOrig - 0.5)) * Math.PI;
-            }
+            this.webGL.cubeRotationZ = ((-data.gammaOrig - 0.5) * 0.5) * Math.PI;
             this.websocket.handleEvent({
                 beta: data.beta
             });
