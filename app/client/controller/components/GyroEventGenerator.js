@@ -14,7 +14,7 @@ export default class {
     }
 
     sensitivity(value) {
-        let sensitivity = 1 / CONFIG.CONTROLLER_SENSITIVITY;
+        let sensitivity = 1 / CONFIG.GYRO_CONTROLLER_SENSITIVITY;
         let lowerBorder = (1 - sensitivity) / 2;
         let upperBorder = 1 - ((1 - sensitivity) / 2);
         return (Math.min(upperBorder, Math.max(lowerBorder, value)) - lowerBorder) * (1 / sensitivity); // limits number to 0 - 1

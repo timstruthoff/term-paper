@@ -33,7 +33,6 @@ export default class {
 
         this.eventGenerator = new GyroEventGenerator();
         this.eventGenerator.onChange = (data) => {
-            console.log(data);
             this.webGL.cubeRotationX = (-data.betaOrig - 0.5) * Math.PI;
             this.webGL.cubeRotationZ = ((-data.gammaOrig - 0.5) * 0.5) * Math.PI;
             this.websocket.handleEvent({
@@ -44,6 +43,11 @@ export default class {
         this.touchEventGenerator = new TouchEventGenerator();
         this.touchEventGenerator.onChange = (data) => {
             console.log(data);
+            this.webGL.cubeRotationX = (-data.beta - 0.5) * Math.PI;
+            this.webGL.cubeRotationZ = ((-data.gamma - 0.5) * 0.5) * Math.PI;
+            this.websocket.handleEvent({
+                beta: data.beta
+            });
         }
 
         this.startWebGL();
