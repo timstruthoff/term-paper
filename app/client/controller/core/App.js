@@ -61,7 +61,7 @@ export default class {
                 this.overlay.destroy();
                 this.overlay = undefined;
             }
-            this.overlay = new Overlay('Waiting for players!');
+            this.overlay = new Overlay('Waiting<br>for<br>players!');
             
         });
 
