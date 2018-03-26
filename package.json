@@ -7,8 +7,8 @@
   "author": "Tim Struthoff <tim.struthoff@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app/server/index.js",
-    "build": "webpack --config tools/webpack/webpack.prod.config.js",
+    "start": "node app/server/index.js",
+    "build": "node_modules/.bin/webpack --config ./tools/webpack/webpack.prod.config.js",
     "dev-start": "nodemon tools/dev-server"
   },
   "devDependencies": {
